@@ -1,0 +1,222 @@
+<style>
+    /*
+     * These styles are self-contained for the iframe.
+     * They use the same retro font as your main page.
+     */
+    body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        background: #fff;
+        color: #000;
+        padding: 10px 25px;
+        margin: 0;
+    }
+    a {
+        color: #000080;
+        text-decoration: underline;
+    }
+    a:hover {
+        color: #1084d0;
+    }
+    h1 {
+        font-size: 24px;
+        color: #000;
+        text-align: center;
+        margin-bottom: 20px;
+        padding-bottom: 5px;
+        border-bottom: 2px solid #808080;
+    }
+    
+    /* Project Card Styling */
+    .project-card {
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #c0c0c0;
+    }
+    .project-card h2 {
+        font-size: 18px;
+        color: #000080;
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+    .project-card img {
+        max-width: 100%;
+        height: auto;
+        border: 2px solid #808080;
+        margin-bottom: 10px;
+    }
+    .project-links {
+        font-size: 13px;
+        margin-bottom: 15px;
+    }
+    .project-links a {
+        margin-right: 10px;
+    }
+    .project-description .short-desc {
+        font-weight: bold;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+    .project-description p {
+        font-size: 13px;
+        line-height: 1.5;
+        margin-bottom: 10px;
+    }
+    .project-tech {
+        font-size: 12px;
+        color: #333;
+    }
+</style>
+
+<body>
+    <h1>My Projects</h1>
+
+    <article class="project-card">
+        <h2>Sound Sift</h2>
+        <div class="project-links">
+            <a href="https://github.com/kierankhan/sound-search" target="_blank">[ GitHub ]</a>
+            <a href="https://devpost.com/software/soundsift-tu3x76" target="_blank">[ Learn More ]</a>
+        </div>
+        <img src="./static/images/soundsift2.png" alt="SoundSift project screenshot" width="300px" height="300px">
+        <div class="project-description">
+            <p class="short-desc">Music producers often sift through hundreds of samples to find the perfect sound. With SoundSift, producers can use text or audio to quickly find samples that directly fit their mix.</p>
+            <p>SoundSift references your entire sample library, and users can find sample by either uploading a clip of their song or searching by text. E.g. searching `sad guitar melody` would return samples that most closely matched your query. 
+            We used two <a href="https://huggingface.co/laion/clap-htsat-fused" target="_blank"><strong>vector embedding models</strong></a> from HuggingFace that use a technology called CLAP: Contrastive Language-Audio Pretraining. One is audio-to-audio and one is text-to-audio. We were able to create an API using these models and performed a FAISS similarity 
+            search to search for the top samples in the user's sample library. The frontend was built in Svelte as an Electron desktop app.</p>
+        </div>
+        <div class="project-tech">
+            <strong>Technologies:</strong> Electron, Svelte, Embeddings, FAISS, FastAPI, Node.js, Python, Google Cloud, Typescript, Transformers
+        </div>
+    </article>
+    
+
+    <article class="project-card">
+        <h2>Control Flow</h2>
+        <div class="project-links">
+            <a href="https://ericx1e.github.io/ControlFlow/" target="_blank">[ Live Site ]</a>
+            <a href="https://github.com/ericx1e/ControlFlow" target="_blank">[ GitHub ]</a>
+            <a href="https://devpost.com/software/control-flow-v415xl" target="_blank">[ Learn More ]</a>
+        </div>
+        <img src="./static/images/controlflow.png" alt="Control Flow project screenshot" width="300px" height="300px">
+        <div class="project-description">
+            <p class="short-desc">A roguelike coding puzzle game where you craft solutions with draggable code blocks. Buy custom code blocks, overcome challenges, and master programming concepts in a procedurally generated adventure!</p>
+            <p>This was our project for Bitcamp 2025! The biggest challenge was building the evaluator. We basically invented our own interpreted programming language that gets executed as javascript. We dealt with challenges having to do with scope, variables, (nested) loops, etc..
+            Creating our custom code block editor was also a huge challenge, as it was built completely from scratch with only the p5js core library. We ran into big problems with how to represent nesting and headers, and how to customize the arguments to loops and conditionals. We are beyond proud of how well it turn out.</p>
+        </div>
+        <div class="project-tech">
+            <strong>Technologies:</strong> p5.js, Javascript, HTML
+        </div>
+    </article>
+
+    <article class="project-card">
+        <h2>TestudoAI</h2>
+        <div class="project-links">
+            <a href="https://testudoai.streamlit.app/" target="_blank">[ Live Site ]</a>
+            <a href="https://github.com/kierankhan/TestudoAI" target="_blank">[ GitHub ]</a>
+        </div>
+        <img src="./static/images/ss_3.png" alt="TestudoAI project screenshot" width="300px" height="300px">
+        <div class="project-description">
+            <p class="short-desc">TestudoAI is an AutoGPT app that helps UMD students chooses courses, professors, and sections.</p>
+            <p>Built in Python with <a href="https://python.langchain.com/docs/get_started/introduction.html" target="_blank"><strong>LangChain</strong></a>, 
+            TestudoAI is dynamic in that it is able to use custom built tools that call the <a href="https://beta.umd.io" target="_blank"><strong>umd.io</strong></a> 
+            and <a href="https://planetterp.com/api/" target="_blank"><strong>PlanetTerp</strong></a> APIs and supply up-to-date data to the MRKL Agent based on a user query. 
+            I built a total of eight different tools including a course, professor, and section search, grade data finder (with a custom 
+            pie chart made with <a href="https://matplotlib.org/3.5.3/api/_as_gen/matplotlib.pyplot.html" target="_blank"><strong>Matplotlib</strong></a>), an aggregate 
+            reviews search, and more. I implemented conversational memory for a natural flow of conversation, and used <a href="https://cloud.google.com/blog/topics/developers-practitioners/meet-ais-multitool-vector-embeddings" target="_blank"><strong>Embeddings</strong></a>, 
+            <a href="https://python.langchain.com/docs/modules/data_connection/vectorstores/" target="_blank"><strong>Vector Stores</strong></a>, and <a href="https://engineering.fb.com/2017/03/29/data-infrastructure/faiss-a-library-for-efficient-similarity-search/" target="_blank"><strong>FAISS</strong></a> 
+            to leverage large amounts of data to give the Agent only the relevant sections. The frontend 
+            was made with <strong>Streamlit</strong> Community Cloud. Developed 100% by yours truly.</p>
+        </div>
+        <div class="project-tech">
+            <strong>Technologies:</strong> LangChain, Python, OpenAI, LangSmith, Streamlit, Matplotlib, FAISS, Embeddings, Vector Stores, REST APIs
+        </div>
+    </article>
+
+    <article class="project-card">
+        <h2>Cutting Corners</h2>
+        <div class="project-links">
+            <a href="https://cuttingcorners-7c95b20a5ad9.herokuapp.com/" target="_blank">[ Live Site ]</a>
+            <a href="https://github.com/ericx1e/Cutting-Corners" target="_blank">[ GitHub ]</a>
+            <a href="https://devpost.com/software/cuttingcorners" target="_blank">[ Learn More ]</a>
+        </div>
+        <img src="./static/images/cuttingcorners.png" alt="Cutting Corners project screenshot" width="300px" height="300px">
+        <div class="project-description">
+            <p class="short-desc">A telephone-esque multiplayer drawing game where you and 3 friends must work together to convince an AI Image Classifier of your artistic abilities!</p>
+            <p>We wanted to create a game that matched the vibe of our favorite co-op multiplayer games, 
+            like <a href="https://garticphone.com/" target="_blank">Gartic Phone</a> and <a href="https://www.jackboxgames.com/" target="_blank">Jackbox</a> but 
+            with a technical twist. We utilized <a href="https://github.com/googlecreativelab/quickdraw-dataset" target="_blank"><strong>Google QuickDraw open sourced dataset</strong></a>
+            to train an AI Image classifier. To power the classifier, we used pytorch to replicate a cutting-edge CNN architecture for image classification, Alexnet. We trained the network on 25000 data points from 25 different classes, and consistently achieved 80-90% test accuracy.
+            To have the frontend be able to utilize our model, we decided to use FastAPI to build a Restful API that is able to take in base64, a string representation of the user-drawn image, and manipulate it in order to compress it down into a 28x28 grayscale matrix that our model needs as input, hosted by <a href="https://railway.app/" target="_blank"><strong>Railway</strong></a>.</p>
+        </div>
+        <div class="project-tech">
+            <strong>Technologies:</strong> p5.js, express.js, pytorch, fastapi, pandas, PIL, pydantic, socket.io
+        </div>
+    </article>
+
+    <article class="project-card">
+        <h2>WillHeSave</h2>
+        <div class="project-links">
+            <a href="https://github.com/kierankhan/WillHeSave" target="_blank">[ GitHub ]</a>
+        </div>
+        <div class="project-description">
+            <p class="short-desc">A machine learning project to predict whether my friend <a href="https://learnsatmath.com/" target="_blank"><strong>Eric</strong></a> will save a song to his Spotify library.</p>
+            <p>A running joke amongst my friends is that I cannot pin down Eric's music taste - so I made a Machine Learning algorithm
+            to do it for me. Used Spotify's proprietary audio features to train the algorithm. To do this, I had to make custom functions to
+            turn a simple spotify playlist link into a <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html" target="_blank"><strong>Pandas dataframe</strong></a>. 
+            Once I had enough labeled training data I then performed feature engineering and supervised learning using five of <a href="https://scikit-learn.org/stable/" target="_blank"><strong>sci-kit learn's</strong></a>
+            classification algorithms, including Decision Trees, Support Vector Machines, Random Forests, Naive Bayes, and KNN. Comparing these algorithms, 
+            Random Forests performed the best when analyzed for accuracy and precision, so I used this as the final model. Users can plug in a song or playlist 
+            and see if Eric would save it or not! You can also train the model on your own data - see the GitHub for details!</p>
+        </div>
+        <div class="project-tech">
+            <strong>Technologies:</strong> Pandas, Sklearn, NumPy, Seaborn, Spotipy, Jupyter Notebook
+        </div>
+    </article>
+
+    <article class="project-card">
+        <h2>Ctrl-Phi</h2>
+        <div class="project-links">
+            <a href="https://ctrl-phi.app/" target="_blank">[ Live Site ]</a>
+            <a href="https://github.com/tayydev/ctrl-phi" target="_blank">[ GitHub ]</a>
+            <a href="https://devpost.com/software/ctrl-phi" target="_blank">[ Learn More ]</a>
+        </div>
+        <img src="./static/images/ctrlphi.png" alt="Ctrl-Phi project screenshot" width="300px" height="300px">
+        <div class="project-description">
+            <p class="short-desc">Ctrl + F is one of the most prominent keybinds for efficient learning, however, Ctrl + F necessitates specific text input in 
+            order to search. What if you don't remember the exact content of a section? Or what if you have a question about the text you want 
+            answered? We wanted a better way to search for content so we set out to create it.</p>
+            <p>Ctrl-Phi has three parts: the website, the chrome extension, and the LLM agent. The frontend was built with Nextjs and TailwindCSS, 
+            using select MaterialUI components. The Playground tab allows users to experiment with Ctrl-Phi using sets of example text, or any 
+            text of their own. It uses dynamic highlighting and scrolling within the text boxes and displays components using the FastAPI response. 
+            In order to analyze text, we engineered a custom Search Agent. This agent uses an LLM alongside agentic AI logic and prompting patterns 
+            (based on the principles of ReAct) in order to find direct matching text based on a 
+            user's query. Built for the <a href="https://hoohacks-2024.devpost.com/" target="_blank"><strong>HooHacks</strong></a> 2024 Hackathon.</p>
+        </div>
+        <div class="project-tech">
+            <strong>Technologies:</strong> Nextjs, FastAPI, TailwindCSS, Poetry, Pydantic, Caddy, Typescript, Javascript, Python
+        </div>
+    </article>
+
+    <article class="project-card">
+        <h2>StudyBrew</h2>
+        <div class="project-links">
+            <a href="https://studybrew.netlify.app/" target="_blank">[ Live Site ]</a>
+            <a href="https://github.com/ericx1e/StudyBrew" target="_blank">[ GitHub ]</a>
+            <a href="https://devpost.com/software/studybrew" target="_blank">[ Learn More ]</a>
+        </div>
+        <img src="./static/images/sb_1.png" alt="StudyBrew project screenshot" width="300px" height="300px">
+        <div class="project-description">
+            <p class="short-desc">StudyBrew is a <a href="https://www.forbes.com/sites/bryancollinseurope/2020/03/03/the-pomodoro-technique/?sh=294512cd3985" target="_blank"><strong>pomodoro</strong></a> 
+            timer that replaces the traditional countdown with a visualization of tea gradually pouring.</p>
+            <p>StudyBrew users can set their desired study and break time, and unique to StudyBrew, if a user signs in with Google, StudyBrew 
+            will track their past study habits and display that data so students can further optimize their study habits. StudyBrew uses 
+            <a href="https://firebase.google.com/docs" target="_blank"><strong>Firebase</strong></a> for the backend and Google authentication, and <a href="https://react.dev/" target="_blank"><strong>React</strong></a> for 
+            the frontend. We made custom liquid animations and a digital <a href="https://elovatestudios.com/digital-art-layers-and-masking/" target="_blank"><strong>mask</strong></a> was 
+            used to overlay the teacup with the liquid. We used <a href="https://bulma.io/documentation/" target="_blank"><strong>Bulma</strong></a> to help with styling some of the 
+            components. This was built with a team of four and was a winning project at the <a href="https://bitcamp2023.devpost.com/" target="_blank"><strong>Bitcamp 2023 Hackathon</strong></a>.</p>
+        </div>
+        <div class="project-tech">
+            <strong>Technologies:</strong> React, Javascript, Firebase Bulma, HTML/CSS
+        </div>
+    </article>
+
+</body>
