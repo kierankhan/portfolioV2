@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="zoom-wrapper" id="zoomWrapper">
-        <div class="desktop">
+        <div class="desktop" id="desktop">
             <div class="browser-window">
                 <div class="title-bar">
                     <div class="title-text">
@@ -35,7 +35,9 @@
                 </div>
                 <div class="content-area">
                     <div class="profile-container">
-                        <img class="profile-photo" src="kieran.jpg"></img>
+                        <div class="profile-hole">
+                            <canvas id="cd-scene"></canvas> 
+                        </div>
                         <div class="orbit-container">
                             <div class="company"><img src="The_Aerospace_Corporation_logo.png" width="200px" height="50px"></img></div>
                             <div class="company"><img src="U.S._News_&_World_Report_logo.png" width="200px" height="50px"></img></div>
@@ -72,6 +74,6 @@
         </div>
     </template>
 
-    <script src="js/main.js"></script>
+    <script type="module" src="js/main.js"></script>
 </body>
 </html>
