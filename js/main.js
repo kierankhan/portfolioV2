@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cdGeometry = new THREE.RingGeometry(1.0, 6.6, 64);
     const textureLoader = new THREE.TextureLoader();
     
-    const faceTexture = textureLoader.load('kieran.jpg', (texture) => {
+    const faceTexture = textureLoader.load('./kieran.jpg', (texture) => {
     });
     
     const cdMaterial = new THREE.MeshPhysicalMaterial({
@@ -196,10 +196,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const lowerQuery = query.toLowerCase().trim();
         switch (lowerQuery) {
             case 'resume':
-                createWindow({ title: 'My Resume', icon: '📄', contentUrl: 'resume.html' });
+                createWindow({ title: 'My Resume', icon: '📄', contentUrl: './resume.html' });
                 break;
             case 'projects':
-                createWindow({ title: 'My Projects', icon: '💡', contentUrl: 'projects.html' });
+                createWindow({ title: 'My Projects', icon: '💡', contentUrl: './projects.html' });
                 break;
             case 'github':
                 window.open('https://github.com/kierankhan', '_blank');
