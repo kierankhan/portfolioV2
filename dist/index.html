@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Software Engineer</title>
+  <script type="module" crossorigin src="/your-repo-name/assets/index-z2WtnBPM.js"></script>
+  <link rel="stylesheet" crossorigin href="/your-repo-name/assets/index-Crkf_HGh.css">
+</head>
+<body>
+    <div class="zoom-wrapper" id="zoomWrapper">
+        <div class="desktop" id="desktop">
+            <div class="browser-window">
+                <div class="title-bar">
+                    <div class="title-text">
+                        <span>📁</span>
+                        <span>Kieran Khan - Portfolio</span>
+                    </div>
+                    <div class="window-controls">
+                        <button class="window-btn">_</button>
+                        <button class="window-btn">□</button>
+                        <button class="window-btn" id="closeBtn">×</button>
+                    </div>
+                </div>
+                <div class="address-bar">
+                    <span class="address-label">Address:</span>
+                    <div class="address-wrapper">
+                        <input 
+                            type="text" 
+                            class="address-input" 
+                            id="addressBar"
+                            placeholder="Type: resume, projects, github, linkedin..."
+                        >
+                        <div class="suggestions" id="suggestions"></div>
+                    </div>
+                </div>
+                <div class="content-area">
+                    <div class="profile-container">
+                        <div class="profile-hole">
+                            <canvas id="cd-scene"></canvas> 
+                        </div>
+                        <div class="orbit-container">
+                            <div class="company"><img src="/your-repo-name/assets/The_Aerospace_Corporation_logo-D8Ds8Rq0.png" width="200px" height="50px"></img></div>
+                            <div class="company"><img src="/your-repo-name/assets/U.S._News___World_Report_logo-K6bOH1TY.png" width="200px" height="50px"></img></div>
+                            <div class="company">
+                                <img src="/your-repo-name/assets/msft_old_logo-CcgZmVKv.png" width="200px" height="50px"></img>
+                                <img src="/your-repo-name/assets/msft_old_logo2-Paw31CaH.png" width="200px" height="80px"></img>
+                            </div>
+                            <div class="company"><img src="/your-repo-name/assets/Mitre_Corporation_logo-0n5z-11R.png" width="200px" height="50px"></img></div>
+                        </div>
+                    </div>
+                    <div class="name-title">
+                        <h1>Kieran Khan</h1>
+                        <p>Software Engineer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <template id="window-template">
+        <div class="browser-window draggable-window">
+            <div class="title-bar">
+                <div class="title-text">
+                    <span class="window-icon">📁</span>
+                    <span class="window-title">New Window</span>
+                </div>
+                <div class="window-controls">
+                    <button class="window-btn">_</button>
+                    <button class="window-btn">□</button>
+                    <button class="window-btn close-btn">×</button>
+                </div>
+            </div>
+            <div class="content-area window-content">
+                </div>
+        </div>
+    </template>
+
+</body>
+</html>

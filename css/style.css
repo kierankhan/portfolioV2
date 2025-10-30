@@ -45,7 +45,7 @@ body {
     align-items: center;
     justify-content: center;
     position: relative;
-    background-image: url('/static/images/winxp.jpg');
+    background-image: url('../static/images/winxp.jpg');
     
     /* These properties ensure it covers the screen perfectly */
     background-size: cover;
