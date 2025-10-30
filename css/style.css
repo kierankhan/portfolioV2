@@ -45,7 +45,11 @@ body {
     align-items: center;
     justify-content: center;
     position: relative;
-    background: #008080;
+    background-image: url('/static/images/winxp.jpg');
+    
+    /* These properties ensure it covers the screen perfectly */
+    background-size: cover;
+    background-position: center;
     z-index: 2; /* Sits on top of the canvas */
     
     /* * REMOVE opacity: 0 and transition.
@@ -53,6 +57,13 @@ body {
      * just scaled up by the wrapper.
      */
 }
+
+/* .bgimage {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -10;
+} */
 
 .browser-window {
     width: 90%;

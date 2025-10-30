@@ -32,20 +32,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const textureLoader = new THREE.TextureLoader();
     
     const faceTexture = textureLoader.load('kieran.jpg', (texture) => {
-        texture.wrapS = THREE.RepeatWrapping;
-        texture.wrapT = THREE.RepeatWrapping;
-        texture.repeat.set(0.5, 0.5); 
-        texture.offset.set(0.25, 0.25); 
     });
     
-    const cdMaterial = new THREE.MeshBasicMaterial({ 
+    const cdMaterial = new THREE.MeshPhysicalMaterial({
         map: faceTexture,
-        side: THREE.DoubleSide
+        side: THREE.DoubleSide,
+        transparent: true,
+        alphaTest: 0.5,
+        
+        // --- Tuned CD Properties ---
+        metalness: 0.2,         // Lowered, so the face texture is more visible
+        roughness: 0.05,        // Very smooth
+        iridescence: 0.8,       // Slightly lowered for a cleaner look
+        iridescenceIOR: 1.3,
+        iridescenceThicknessRange: [100, 400],
+        
+        // Add a shiny top coat (like the plastic on a CD)
+        clearcoat: 1.0, 
+        clearcoatRoughness: 0.0
     });
     
     const cdMesh = new THREE.Mesh(cdGeometry, cdMaterial);
-    cdMesh.rotation.x = Math.PI; 
+    // cdMesh.rotation.x = Math.PI; 
     scene.add(cdMesh);
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
+
+    // Add a directional light to create shiny reflections
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(5, 5, 5); // Position the light
+    scene.add(directionalLight);
 
     // --- 4. Set Initial Camera Position ---
     camera.position.z = 0.1; 
@@ -81,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 6. The Animation Loop (Makes the CD Spin) ---
     function animate() {
         requestAnimationFrame(animate); 
-        cdMesh.rotation.z -= 0.005; 
+        cdMesh.rotation.z += 0.005; 
         renderer.render(scene, camera);
     }
     
@@ -108,17 +125,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const navOptions = ['resume', 'projects', 'github', 'linkedin'];
 
     // --- Main Window Close Button (Restart animation) ---
-    closeBtn.addEventListener('click', () => {
-        // ADD THIS LINE:
-        // This scales the wrapper back up
+   closeBtn.addEventListener('click', () => {
+        // 1. This starts the 2.5s CSS zoom-IN animation
         zoomWrapper.classList.remove('zoomed-out');
         
-        // Reset camera
-        camera.position.z = 0.1;
-        camera.rotation.x = -0.1;
+        // 2. Animate camera zooming back IN (instead of snapping)
+        gsap.to(camera.position, {
+            z: 0.1, // Zoom back to the start
+            duration: 2.5, // Match the CSS animation time
+            ease: "power2.inOut",
+        });
+
+        // 3. Animate camera rotating back to the start
+        gsap.to(camera.rotation, {
+            x: -0.1, // Go back to the tilted angle
+            duration: 2.5,
+            ease: "power2.inOut"
+        });
         
-        // We must re-run the animation
-        setTimeout(startIntroAnimation, 100); 
+        // 4. We must wait for the zoom-in to finish (2500ms)
+        //    before we run the zoom-out animation again.
+        setTimeout(startIntroAnimation, 2500); 
     });
 
     // --- Address Bar Logic (no changes) ---
