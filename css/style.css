@@ -150,6 +150,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    /* background-image: url('../static/images/dsotm.png');
+    background-size: cover;
+    background-position: center; */
 }
 
 .profile-container {
@@ -256,7 +259,7 @@ body {
 .name-title {
     font-family: 'Serif', 'Times New Roman', Times, serif;
     text-align: center;
-    padding-left: 50px;
+    padding-left: 90px;
     color: black;
     opacity: 0;
     transition: opacity 1s ease 2s;
@@ -363,8 +366,8 @@ body {
 
     /* Make browser fill the screen */
     .browser-window {
-        width: 100%;
-        height: 100vh;
+        width: 95%;
+        height: 90vh;
         max-width: 100%;
         border: none;
         box-shadow: none;
@@ -377,6 +380,7 @@ body {
         justify-content: flex-start;
         padding: 40px 20px 20px 20px;
         overflow-y: auto;
+        /* background-image: url('../static/images/dsotm.png'); */
     }
 
     /* Shrink the profile container and hole */
@@ -436,4 +440,73 @@ body {
         border: none;
         box-shadow: none;
     }
+
+    .address-input {
+        flex: 1;
+        width: 300px;
+        padding: 3px 5px;
+        border: 2px solid;
+        border-color: #808080 #dfdfdf #dfdfdf #808080;
+        font-family: 'Courier New', monospace;
+        font-size: 12px;
+        background: white;
+    }
+
+    .suggestions {
+        width: 300px;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border: 2px solid #808080;
+        display: none;
+        max-height: 150px;
+        overflow-y: auto;
+        z-index: 1000;
+    }
 }
+
+/*
+ * ========================================
+ * Train Animation
+ * ========================================
+ */
+.train-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  z-index: 1000;
+  transform: translateX(-100%); /* This is now the default "parked" state */
+  transition: transform 1s ease; /* Makes it hide smoothly if X is pressed mid-animation */
+}
+
+/* This new class will trigger the animation */
+.train-container.driving {
+  animation: drive-by 10s linear 3s forwards;
+}
+
+.train-container img {
+  height: 60px; /* You can adjust the size of your train */
+  width: auto;
+  /* Optional: makes pixel art look crisp */
+  image-rendering: pixelated; 
+}
+
+/* This defines the animation steps */
+@keyframes drive-by {
+  from {
+    transform: translateX(-100%); /* Start state (off-screen left) */
+  }
+  to {
+    transform: translateX(100vw); /* End state (off-screen right) */
+  }
+}
+
+/* Hide the train on mobile, it will be too distracting */
+/* @media (max-width: 768px) {
+  .train-container {
+    display: none;
+  }
+} */

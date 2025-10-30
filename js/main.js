@@ -7,52 +7,84 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('cd-scene');
     const zoomWrapper = document.getElementById('zoomWrapper'); 
     const desktop = document.getElementById('desktop');
+    const train = document.getElementById('trainContainer');
 
     // --- 2. Basic 3D Scene Setup ---
     const scene = new THREE.Scene();
 
-    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(75, 1, 0.001, 1000); // Initial aspect ratio is 1
 
     const renderer = new THREE.WebGLRenderer({ 
         canvas: canvas, 
-        alpha: true 
+        alpha: true
     });
 
 
-    // --- 3. Create the CD (with texture fix) ---
+    // --- 3. Create the CD ---
+    
+    // We'll create a Group to hold both layers.
+    // We will spin this Group instead of a single mesh.
+    const cdGroup = new THREE.Group();
+
+    // This geometry will be shared by both layers
     const cdGeometry = new THREE.RingGeometry(1.0, 6.6, 64);
     const textureLoader = new THREE.TextureLoader();
-    
+
+    // --- Layer 1: The Face ---
     const faceTexture = textureLoader.load('./kieran.jpg', (texture) => {
+        
     });
     
-    const cdMaterial = new THREE.MeshPhysicalMaterial({
+    const faceMaterial = new THREE.MeshPhysicalMaterial({
         map: faceTexture,
         side: THREE.DoubleSide,
-        transparent: true,
-        alphaTest: 0.5,
-        
-        // --- Tuned CD Properties ---
-        metalness: 0.2,         // Lowered, so the face texture is more visible
-        roughness: 0.05,        // Very smooth
-        iridescence: 0.8,       // Slightly lowered for a cleaner look
-        iridescenceIOR: 1.3,
-        iridescenceThicknessRange: [100, 400],
-        
-        // Add a shiny top coat (like the plastic on a CD)
-        clearcoat: 1.0, 
-        clearcoatRoughness: 0.0
+        // transparent: true,
+        // alphaTest: 0.5,
+        // (You can remove all the shiny/metalness properties from this)
+        // (material to make it just the face)
     });
     
-    const cdMesh = new THREE.Mesh(cdGeometry, cdMaterial);
-    // cdMesh.rotation.x = Math.PI; 
-    scene.add(cdMesh);
+    const faceMesh = new THREE.Mesh(cdGeometry, faceMaterial);
+    // Add the face to the group
+    cdGroup.add(faceMesh);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+
+    // --- Layer 2: The Translucent CD Overlay ---
+    // (Assumes you have 'cd_overlay.png' in your /public folder)
+    const cdOverlayTexture = textureLoader.load('./cd.png', (texture) => {
+        // 👇 COPY the settings from your faceTexture here 👇
+        texture.repeat.set(.75, .75);
+        texture.offset.set(0.126, 0.126);
+    });
+
+    const cdOverlayMaterial = new THREE.MeshPhysicalMaterial({
+        map: cdOverlayTexture,      // Use the new CD texture
+        side: THREE.DoubleSide,
+        transparent: true,          // 👈 Make it transparent
+        opacity: 0.7,               // 👈 Tweak this (0.0 to 1.0) for translucency
+        
+        // (You can add your shiny/metalness/iridescence properties here)
+        // metalness: 0.7,
+        // roughness: 0.05,
+        // iridescence: 0.8,
+    });
+
+    const cdOverlayMesh = new THREE.Mesh(cdGeometry, cdOverlayMaterial);
+    
+    // Position it *very slightly* in front of the face
+    // cdOverlayMesh.position.z = 0.01; 
+    
+    // Add the overlay to the group
+    cdGroup.add(cdOverlayMesh);
+
+
+    // --- Add the GROUP (not the meshes) to the scene ---
+    scene.add(cdGroup);
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2); // A soft white light
     scene.add(ambientLight);
 
-    // Add a directional light to create shiny reflections
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5); // A shiny directional light
     directionalLight.position.set(5, 5, 5); // Position the light
     scene.add(directionalLight);
 
@@ -65,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 1. Trigger the CSS scale-down
         // (This was the missing line!)
         zoomWrapper.classList.add('zoomed-out');
+        train.classList.add('driving');
 
         // 2. Animate camera zooming out
         gsap.to(camera.position, {
@@ -90,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 6. The Animation Loop (Makes the CD Spin) ---
     function animate() {
         requestAnimationFrame(animate); 
-        cdMesh.rotation.z += 0.005; 
+        cdGroup.rotation.z += 0.005; 
         renderer.render(scene, camera);
     }
     
@@ -136,6 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
    closeBtn.addEventListener('click', () => {
         // 1. This starts the 2.5s CSS zoom-IN animation
         zoomWrapper.classList.remove('zoomed-out');
+        train.classList.remove('driving');
         
         // 2. Animate camera zooming back IN (instead of snapping)
         gsap.to(camera.position, {
