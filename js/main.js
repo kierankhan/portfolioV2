@@ -10,22 +10,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 2. Basic 3D Scene Setup ---
     const scene = new THREE.Scene();
-    
-    // --- ⬇️ MODIFICATION HERE ⬇️ ---
-    const canvasSize = 500; // Our canvas is now fixed at 500x500
-    // Aspect ratio is 1 (width / height)
-    const camera = new THREE.PerspectiveCamera(75, canvasSize / canvasSize, 0.1, 1000);
-    // --- ⬆️ MODIFICATION HERE ⬆️ ---
+
+    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
 
     const renderer = new THREE.WebGLRenderer({ 
         canvas: canvas, 
         alpha: true 
     });
-    
-    // --- ⬇️ MODIFICATION HERE ⬇️ ---
-    // Set renderer to the fixed canvas size
-    renderer.setSize(canvasSize, canvasSize);
-    // --- ⬆️ MODIFICATION HERE ⬆️ ---
+
 
     // --- 3. Create the CD (with texture fix) ---
     const cdGeometry = new THREE.RingGeometry(1.0, 6.6, 64);
@@ -105,12 +97,28 @@ document.addEventListener('DOMContentLoaded', () => {
     animate(); 
 
     // --- 7. Handle Window Resizing ---
-    // We don't need this anymore, as the canvas is fixed!
-    /*
-    window.addEventListener('resize', () => {
-        // ...REMOVED...
-    });
-    */
+    
+    function handleResize() {
+        // Check if window width is mobile (<= 768px)
+        const isMobile = window.innerWidth <= 768;
+        
+        // Use 300px for mobile, 500px for desktop
+        const canvasSize = isMobile ? 300 : 500; 
+
+        // 1. Update the camera's aspect ratio
+        camera.aspect = canvasSize / canvasSize; // Still 1
+        camera.updateProjectionMatrix();
+
+        // 2. Update the renderer's size
+        renderer.setSize(canvasSize, canvasSize);
+    }
+    
+    // Call it once to set the initial size
+    handleResize(); 
+    
+    // Add the event listener to call it on every resize
+    window.addEventListener('resize', handleResize);
+
     
     // --- 8. All Your Window/Search Bar Logic ---
     const addressBar = document.getElementById('addressBar');
@@ -225,9 +233,11 @@ document.addEventListener('DOMContentLoaded', () => {
         contentArea.appendChild(iframe);
         maxZIndex++;
         newWindow.style.zIndex = maxZIndex;
-        const offsetX = Math.floor(Math.random() * 100) - 50;
-        const offsetY = Math.floor(Math.random() * 100) - 50;
-        newWindow.style.transform = `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px))`;
+        if (window.innerWidth > 768) {
+            const offsetX = Math.floor(Math.random() * 100) - 50;
+            const offsetY = Math.floor(Math.random() * 100) - 50;
+            newWindow.style.transform = `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px))`;
+        }
         desktop.appendChild(newWindow);
     }
 
