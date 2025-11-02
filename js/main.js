@@ -8,8 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const zoomWrapper = document.getElementById('zoomWrapper'); 
     const desktop = document.getElementById('desktop');
     const train = document.getElementById('trainContainer');
-    const taskbar = document.getElementById('taskbar'); // 👈 ADD THIS
+    const taskbar = document.getElementById('taskbar');
     const aboutMeBtn = document.getElementById('aboutMeBtn');
+    const contactBtn = document.getElementById('contactBtn');
     let restingXPosition = 0;
     let restingYPosition = 0;
     let mouseX = 0;
@@ -148,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const targetRotationY = (mouseX - 100) * tiltIntensity;
 
         // Smoothly move to the target rotation
-        const lerpFactor = 0.05; // How fast it snaps (0.01 = slow, 0.1 = fast)
+        const lerpFactor = 0.012; // How fast it snaps (0.01 = slow, 0.1 = fast)
         cdGroup.rotation.x += (targetRotationX - cdGroup.rotation.x) * lerpFactor;
         cdGroup.rotation.y += (targetRotationY - cdGroup.rotation.y) * lerpFactor;
         // --- END TILT LOGIC ---
@@ -176,8 +177,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Main Window Close Button (Restart animation) ---
    closeBtn.addEventListener('click', (e) => {
         // --- 1. Close all open sub-windows ---
-        const openWindows = document.querySelectorAll('.draggable-window');
+        const openWindows = document.querySelectorAll('.draggable-window, .alert-window, .contact-window');
         openWindows.forEach(window => window.remove());
+
+        // const openAlerts = document.querySelectorAll('.alert-window');
+        // openAlerts.forEach(window => window.remove());
 
         // --- 2. Run the zoom-in animation ---
         canvas.style.zIndex = 13;
@@ -357,5 +361,26 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Add to page
         zoomWrapper.appendChild(newAlert);
+    });
+
+    contactBtn.addEventListener('click', () => {
+        // Get the template
+        const contactTemplate = document.getElementById('contact-template');
+        // Clone it
+        const newContactWindow = contactTemplate.content.cloneNode(true).firstElementChild;
+
+        // Find the buttons inside the *new clone*
+        const okBtn = newContactWindow.querySelector('.alert-ok-btn');
+        const closeBtn = newContactWindow.querySelector('.alert-close-btn');
+
+        // Function to close the alert
+        const closeWindow = () => newContactWindow.remove();
+
+        // Add listeners
+        okBtn.addEventListener('click', closeWindow);
+        closeBtn.addEventListener('click', closeWindow);
+        
+        // Add to page
+        zoomWrapper.appendChild(newContactWindow);
     });
 });
