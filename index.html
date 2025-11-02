@@ -8,6 +8,9 @@
 </head>
 <body>
     <div class="zoom-wrapper" id="zoomWrapper">
+
+        <canvas id="cd-scene"></canvas>
+
         <div class="desktop" id="desktop">
             <div class="browser-window">
                 <div class="title-bar">
@@ -33,20 +36,24 @@
                         <div class="suggestions" id="suggestions"></div>
                     </div>
                 </div>
+                <div class="bookmarks-bar" id="bookmarksBar">
+                    <button class="bookmark-btn">
+                        <img src="/msft_old_logo.png" alt="Microsoft">
+                        <img src="/msft_old_logo2.png" alt="Microsoft">
+                    </button>
+                    <button class="bookmark-btn">
+                        <img src="/The_Aerospace_Corporation_logo.png" alt="Aerospace">
+                    </button>
+                    <button class="bookmark-btn">
+                        <img src="/U.S._News_&_World_Report_logo.png" alt="U.S. News">
+                    </button>
+                    <button class="bookmark-btn">
+                        <img src="/Mitre_Corporation_logo.png" alt="MITRE">
+                    </button>
+                </div>
                 <div class="content-area">
                     <div class="profile-container">
-                        <div class="profile-hole">
-                            <canvas id="cd-scene"></canvas> 
-                        </div>
-                        <div class="orbit-container">
-                            <div class="company"><img src="./The_Aerospace_Corporation_logo.png" width="200px" height="50px"></img></div>
-                            <div class="company"><img src="./U.S._News_&_World_Report_logo.png" width="200px" height="50px"></img></div>
-                            <div class="company">
-                                <img src="./msft_old_logo.png" width="200px" height="50px"></img>
-                                <img src="./msft_old_logo2.png" width="200px" height="80px"></img>
-                            </div>
-                            <div class="company"><img src="./Mitre_Corporation_logo.png" width="200px" height="50px"></img></div>
-                        </div>
+                        
                     </div>
                     <div class="name-title">
                         <h1>Kieran Khan</h1>
@@ -56,6 +63,15 @@
             </div>
         </div>
     </div>
+    <!-- <div class="orbit-container">
+        <div class="company"><img src="./The_Aerospace_Corporation_logo.png" width="150px" height="40px"></img></div>
+        <div class="company"><img src="./U.S._News_&_World_Report_logo.png" width="150px" height="40px"></img></div>
+        <div class="company">
+            <img src="./msft_old_logo.png" width="150px" height="40px"></img>
+            <img src="./msft_old_logo2.png" width="150px" height="50px"></img>
+        </div>
+        <div class="company"><img src="./Mitre_Corporation_logo.png" width="150px" height="40px"></img></div>
+    </div> -->
     <template id="window-template">
         <div class="browser-window draggable-window">
             <div class="title-bar">
@@ -84,5 +100,30 @@
         <img src="./static/images/carriage_v18_car9.png" alt="train car">
         <img src="./static/images/train_v18.png" alt="train car">
     </div>
+    <div class="taskbar" id="taskbar">
+        <button class="taskbar-btn" id="aboutMeBtn">
+            <span>ℹ️</span>
+            <span>About Me</span>
+        </button>
+    </div>
+
+    <template id="alert-template">
+        <div class="alert-window">
+            <div class="alert-title-bar">
+                <span>Alert</span>
+                <button class="window-btn alert-close-btn">×</button>
+            </div>
+            <div class="alert-content">
+                <div class="alert-icon">i</div>
+                <p class="alert-text">
+                    Hey! I'm Kieran, a software engineer with a versatile set of skills across the stack, 
+                    although I have a particular interest in big data.
+                </p>
+            </div>
+            <div class="alert-controls">
+                <button class="alert-ok-btn">OK</button>
+            </div>
+        </div>
+    </template>
 </body>
 </html>

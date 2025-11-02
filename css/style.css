@@ -7,7 +7,7 @@
 body {
     font-family: 'Courier New', monospace;
     background: #008080;
-    overflow: hidden;
+    /* overflow: hidden; */
     height: 100vh;
 }
 
@@ -17,25 +17,23 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    
-    /* ADD THIS: Start zoomed-in */
-    transform: scale(10); 
-    
-    /* ADD THIS: Animate the zoom */
-    transition: transform 2.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ADD THIS RULE: The zoomed-out state */
-.zoom-wrapper.zoomed-out {
+/* .zoom-wrapper.zoomed-out {
     transform: scale(1);
-}
+} */
 #cd-scene {
-    /* * This makes the canvas fill its 500x500
-     * parent div (.profile-hole).
-     * REMOVE position:fixed.
-     */
-    width: 100%;
-    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2; /* Sits in the middle */
+    
+    /* This "punches" a hole in the canvas so the
+       browser UI behind it can be clicked */
+    pointer-events: none;
 }
 
 .desktop {
@@ -50,7 +48,7 @@ body {
     /* These properties ensure it covers the screen perfectly */
     background-size: cover;
     background-position: center;
-    z-index: 2; /* Sits on top of the canvas */
+    z-index: 1; /* Sits at the back */
     
     /* * REMOVE opacity: 0 and transition.
      * The desktop should be visible from the start,
@@ -146,7 +144,7 @@ body {
     flex: 1;
     background: white;
     position: relative;
-    overflow: hidden;
+    /* overflow: hidden; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -164,8 +162,8 @@ body {
 }
 
 .profile-hole {
-    width: 500px;
-    height: 500px;
+    width: 400px;
+    height: 400px;
     border-radius: 50%;
     background: transparent; 
     position: absolute;
@@ -175,7 +173,7 @@ body {
     box-shadow: 0 10px 40px rgba(0,0,0,0.3);
     
     /* Add this line to clip the canvas */
-    overflow: hidden; 
+    /* overflow: hidden;  */
 }
 
 /* .profile-photo {
@@ -195,12 +193,19 @@ body {
 } */
 
 .orbit-container {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 50%;
-    top: 50%;
+    position: fixed;
+    top: 55%;
+    
+    /* * Tweak this % to align the logos with the 3D disk.
+     * It should be less than 50%.
+     */
+    left: 33.2%;
+    
+    width: 500px;
+    height: 100vh;
     transform: translate(-50%, -50%);
+    z-index: 10;
+    pointer-events: none;
 }
 
 .company {
@@ -218,7 +223,8 @@ body {
     left: 50%;
     top: 50%;
     margin-left: -40px;
-    margin-top: -40px;
+    margin-top: -50px;
+    pointer-events: auto;
 }
 
 .company:nth-child(1) {
@@ -261,7 +267,7 @@ body {
     text-align: center;
     padding-left: 90px;
     color: black;
-    opacity: 0;
+    opacity: 1;
     transition: opacity 1s ease 2s;
 }
 
@@ -270,7 +276,7 @@ body {
 }
 
 .name-title h1 {
-    font-size: 32px;
+    font-size: 48px;
     margin-bottom: 5px;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
@@ -317,7 +323,7 @@ body {
 /* Add this to your existing style.css */
 
 .draggable-window {
-    position: absolute;
+    position: fixed;
     /* Start new windows in the center, but slightly offset */
     top: 50%;
     left: 50%;
@@ -329,7 +335,7 @@ body {
     max-width: 800px;
     
     /* Ensure it's on top */
-    z-index: 10;
+    z-index: 12;
     
     /* Add a nice drop shadow to distinguish it */
     box-shadow: 0 5px 15px rgba(0,0,0,0.5);
@@ -393,6 +399,10 @@ body {
     .profile-hole {
         width: 300px;
         height: 300px;
+    }
+
+    .name-title h1 {
+        font-size: 36px;
     }
 
     /* * This is CRITICAL: 
@@ -465,6 +475,18 @@ body {
         overflow-y: auto;
         z-index: 1000;
     }
+    .orbit-container {
+        left: 50%; /* Center the logos */
+        width: 300px; /* Match the smaller canvas size */
+    }
+
+    .bookmark-btn {
+        padding: 4px;
+    }
+    .bookmark-btn img {
+        height: 10px;
+        width: 70%;
+    }
 }
 
 /*
@@ -477,14 +499,14 @@ body {
   bottom: 0;
   left: 0;
   display: flex;
-  z-index: 1000;
+  z-index: 11;
   transform: translateX(-100%); /* This is now the default "parked" state */
   transition: transform 1s ease; /* Makes it hide smoothly if X is pressed mid-animation */
 }
 
 /* This new class will trigger the animation */
 .train-container.driving {
-  animation: drive-by 10s linear 3s forwards;
+  animation: drive-by 8s linear 3s forwards;
 }
 
 .train-container img {
@@ -510,3 +532,184 @@ body {
     display: none;
   }
 } */
+
+/*
+ * ========================================
+ * Bookmarks Bar Styles
+ * ========================================
+ */
+.bookmarks-bar {
+    display: flex;
+    align-items: center;
+    gap: 4px; /* Space between buttons */
+    padding: 4px 5px;
+    background: #c0c0c0; /* Match address bar silver */
+    border-bottom: 2px solid;
+    border-color: #dfdfdf #808080 #808080 #dfdfdf;
+    flex-wrap: wrap; /* Allows buttons to wrap on small screens */
+}
+
+.bookmark-btn {
+    display: flex;
+    align-items: center;
+    padding: 2px 6px;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #dfdfdf #808080 #808080 #dfdfdf; /* 3D button */
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.bookmark-btn:active {
+    border-color: #808080 #dfdfdf #dfdfdf #808080; /* Sunken-in look */
+}
+
+/* Styles the small logo inside the button */
+.bookmark-btn img {
+    height: 20px;
+    width: 90%;
+    object-fit: contain;
+    image-rendering: pixelated; /* Keeps pixel art logos sharp */
+}
+
+/*
+ * ========================================
+ * Taskbar Styles
+ * ========================================
+ */
+.taskbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 32px;
+    background: #c0c0c0; /* Windows silver */
+    border-top: 2px solid #dfdfdf;
+    z-index: 1001; /* On top of logos/train */
+    display: flex;
+    align-items: center;
+    padding: 0 4px;
+
+    /* Hide it off-screen by default */
+    transform: translateY(100%);
+}
+
+/* This class triggers the reveal animation */
+.taskbar.show {
+    /* Animation:
+      - slide-up: name of the @keyframe
+      - 1s: duration
+      - ease-out: smooth easing
+      - 6s: DELAY (3s page load + 3s train travel)
+      - forwards: stay visible when done
+    */
+    animation: slide-up 1s ease-out 10s forwards;
+}
+
+@keyframes slide-up {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+.taskbar-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 26px;
+    padding: 0 8px;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #dfdfdf #808080 #808080 #dfdfdf;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.taskbar-btn:active {
+    border-color: #808080 #dfdfdf #dfdfdf #808080;
+}
+
+/*
+ * ========================================
+ * Alert Window Styles
+ * ========================================
+ */
+.alert-window {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #dfdfdf #808080 #808080 #dfdfdf;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    z-index: 100; /* On top of everything */
+    display: flex;
+    flex-direction: column;
+}
+
+.alert-title-bar {
+    background: linear-gradient(to right, #000080, #1084d0);
+    color: white;
+    padding: 3px 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.alert-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+}
+
+.alert-icon {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    background: #000080;
+    color: white;
+    border-radius: 50%;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 24px;
+    font-weight: bold;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+}
+
+.alert-text {
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.alert-controls {
+    display: flex;
+    justify-content: center;
+    padding: 0px 20px 20px 20px;
+}
+
+.alert-ok-btn {
+    width: 80px;
+    height: 24px;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #dfdfdf #808080 #808080 #dfdfdf;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    cursor: pointer;
+}
+.alert-ok-btn:active, .alert-close-btn:active {
+    border-color: #808080 #dfdfdf #dfdfdf #808080;
+}

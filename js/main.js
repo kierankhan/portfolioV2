@@ -8,105 +8,123 @@ document.addEventListener('DOMContentLoaded', () => {
     const zoomWrapper = document.getElementById('zoomWrapper'); 
     const desktop = document.getElementById('desktop');
     const train = document.getElementById('trainContainer');
+    const taskbar = document.getElementById('taskbar'); // 👈 ADD THIS
+    const aboutMeBtn = document.getElementById('aboutMeBtn');
+    let restingXPosition = 0;
+    let restingYPosition = 0;
+    let mouseX = 0;
+    let mouseY = 0;
 
     // --- 2. Basic 3D Scene Setup ---
     const scene = new THREE.Scene();
-
-    const camera = new THREE.PerspectiveCamera(75, 1, 0.001, 1000); // Initial aspect ratio is 1
-
+    const camera = new THREE.PerspectiveCamera(75, 1, 0.001, 1000);
     const renderer = new THREE.WebGLRenderer({ 
         canvas: canvas, 
         alpha: true
     });
 
-
     // --- 3. Create the CD ---
-    
-    // We'll create a Group to hold both layers.
-    // We will spin this Group instead of a single mesh.
     const cdGroup = new THREE.Group();
-
-    // This geometry will be shared by both layers
-    const cdGeometry = new THREE.RingGeometry(1.0, 6.6, 64);
+    const cdGeometry = new THREE.RingGeometry(.7, 4.3, 64);
     const textureLoader = new THREE.TextureLoader();
 
     // --- Layer 1: The Face ---
+    // ❗️ FIX: Paths in /public must start with a /
     const faceTexture = textureLoader.load('./kieran.jpg', (texture) => {
-        
     });
     
     const faceMaterial = new THREE.MeshPhysicalMaterial({
         map: faceTexture,
         side: THREE.DoubleSide,
-        // transparent: true,
-        // alphaTest: 0.5,
-        // (You can remove all the shiny/metalness properties from this)
-        // (material to make it just the face)
     });
     
     const faceMesh = new THREE.Mesh(cdGeometry, faceMaterial);
-    // Add the face to the group
     cdGroup.add(faceMesh);
 
-
     // --- Layer 2: The Translucent CD Overlay ---
-    // (Assumes you have 'cd_overlay.png' in your /public folder)
+    // ❗️ FIX: Paths in /public must start with a /
     const cdOverlayTexture = textureLoader.load('./cd.png', (texture) => {
-        // 👇 COPY the settings from your faceTexture here 👇
         texture.repeat.set(.75, .75);
         texture.offset.set(0.126, 0.126);
     });
 
     const cdOverlayMaterial = new THREE.MeshPhysicalMaterial({
-        map: cdOverlayTexture,      // Use the new CD texture
+        map: cdOverlayTexture,
         side: THREE.DoubleSide,
-        transparent: true,          // 👈 Make it transparent
-        opacity: 0.7,               // 👈 Tweak this (0.0 to 1.0) for translucency
-        
-        // (You can add your shiny/metalness/iridescence properties here)
-        // metalness: 0.7,
-        // roughness: 0.05,
-        // iridescence: 0.8,
+        transparent: true,
+        opacity: 0.7,
     });
 
     const cdOverlayMesh = new THREE.Mesh(cdGeometry, cdOverlayMaterial);
-    
-    // Position it *very slightly* in front of the face
-    // cdOverlayMesh.position.z = 0.01; 
-    
-    // Add the overlay to the group
     cdGroup.add(cdOverlayMesh);
 
-
-    // --- Add the GROUP (not the meshes) to the scene ---
+    // --- Add the GROUP to the scene ---
     scene.add(cdGroup);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2); // A soft white light
+    // Add Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
     scene.add(ambientLight);
-
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5); // A shiny directional light
-    directionalLight.position.set(5, 5, 5); // Position the light
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    directionalLight.position.set(5, 5, 5);
     scene.add(directionalLight);
 
+    
+    // --- ❗️ MOVED SECTION 7 HERE ---
+    // We must run handleResize *before* setting the camera position
+    function handleResize() {
+        const isMobile = window.innerWidth <= 768;
+        const canvasSize = isMobile ? 300 : 500;
+
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        restingXPosition = isMobile ? 0 : -3.3;
+        restingYPosition = isMobile ? 0.3 : -0.5;
+        cdGroup.position.x = restingXPosition;
+        cdGroup.position.y = restingYPosition;
+
+        const scale = isMobile ? 0.75 : 1;
+        cdGroup.scale.set(scale, scale, scale);
+    }
+    
+    // Call it once to set the initial size AND resting positions
+    handleResize(); 
+    
+    // Add the event listener to call it on every resize
+    window.addEventListener('resize', handleResize);
+    // --- ❗️ END MOVED SECTION ---
+
+    // --- 8. Handle Mouse Movement for Tilt ---
+    document.addEventListener('mousemove', (event) => {
+        // Normalize mouse position from -1 to 1
+        mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+        mouseY = (event.clientY / window.innerHeight) * 2 - 1;
+    });
+
+
     // --- 4. Set Initial Camera Position ---
-    camera.position.z = 0.1; 
+    // ❗️ FIX: Set camera's initial X and Y to match the CD's position
+    camera.position.x = restingXPosition;
+    camera.position.y = restingYPosition;
+    camera.position.z = 0.1;
     camera.rotation.x = -0.1; 
 
     // --- 5. Handle Page Load Animation ---
     function startIntroAnimation() {
-        // 1. Trigger the CSS scale-down
-        // (This was the missing line!)
-        zoomWrapper.classList.add('zoomed-out');
+        canvas.style.zIndex = 2; // Set CD to resting z-index
         train.classList.add('driving');
+        taskbar.classList.add('show');
 
-        // 2. Animate camera zooming out
+        // ❗️ FIX: Animate camera X and Y to the center
         gsap.to(camera.position, {
+            x: 0,
+            y: 0,
             z: 10, 
             duration: 2.5,
             ease: "power2.inOut",
         });
 
-        // 3. Animate camera straightening out
         gsap.to(camera.rotation, {
             x: 0,
             duration: 2.5,
@@ -114,44 +132,34 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // --- ⬇️ MODIFICATION HERE ⬇️ ---
-    // We MUST wait a tiny bit for the page to load
-    // before triggering the animation.
     setTimeout(startIntroAnimation, 100); 
-    // --- ⬆️ MODIFICATION HERE ⬆️ ---
 
-    // --- 6. The Animation Loop (Makes the CD Spin) ---
+    // --- 6. The Animation Loop (Makes the CD Spin & Tilt) ---
     function animate() {
         requestAnimationFrame(animate); 
+        
+        // This is your existing spin
         cdGroup.rotation.z += 0.005; 
+
+        // --- ADD TILT LOGIC ---
+        // Set the intensity of the tilt (lower = more subtle)
+        const tiltIntensity = 0.25;
+        const targetRotationX = mouseY * tiltIntensity * -1; // Invert Y for natural up/down
+        const targetRotationY = (mouseX - 100) * tiltIntensity;
+
+        // Smoothly move to the target rotation
+        const lerpFactor = 0.05; // How fast it snaps (0.01 = slow, 0.1 = fast)
+        cdGroup.rotation.x += (targetRotationX - cdGroup.rotation.x) * lerpFactor;
+        cdGroup.rotation.y += (targetRotationY - cdGroup.rotation.y) * lerpFactor;
+        // --- END TILT LOGIC ---
+
         renderer.render(scene, camera);
     }
     
     animate(); 
 
-    // --- 7. Handle Window Resizing ---
-    
-    function handleResize() {
-        // Check if window width is mobile (<= 768px)
-        const isMobile = window.innerWidth <= 768;
-        
-        // Use 300px for mobile, 500px for desktop
-        const canvasSize = isMobile ? 300 : 500; 
-
-        // 1. Update the camera's aspect ratio
-        camera.aspect = canvasSize / canvasSize; // Still 1
-        camera.updateProjectionMatrix();
-
-        // 2. Update the renderer's size
-        renderer.setSize(canvasSize, canvasSize);
-    }
-    
-    // Call it once to set the initial size
-    handleResize(); 
-    
-    // Add the event listener to call it on every resize
-    window.addEventListener('resize', handleResize);
-
+    // --- 7. Handle Window Resizing (MOVED) ---
+    // (This section is now above)
     
     // --- 8. All Your Window/Search Bar Logic ---
     const addressBar = document.getElementById('addressBar');
@@ -166,28 +174,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const navOptions = ['resume', 'projects', 'github', 'linkedin'];
 
     // --- Main Window Close Button (Restart animation) ---
-   closeBtn.addEventListener('click', () => {
-        // 1. This starts the 2.5s CSS zoom-IN animation
-        zoomWrapper.classList.remove('zoomed-out');
+   closeBtn.addEventListener('click', (e) => {
+        // --- 1. Close all open sub-windows ---
+        const openWindows = document.querySelectorAll('.draggable-window');
+        openWindows.forEach(window => window.remove());
+
+        // --- 2. Run the zoom-in animation ---
+        canvas.style.zIndex = 13;
         train.classList.remove('driving');
+        taskbar.classList.remove('show');
         
-        // 2. Animate camera zooming back IN (instead of snapping)
+        // ❗️ FIX: Animate camera X and Y back to the CD's resting position
         gsap.to(camera.position, {
-            z: 0.1, // Zoom back to the start
-            duration: 2.5, // Match the CSS animation time
+            x: restingXPosition,
+            y: restingYPosition,
+            z: 0.1, 
+            duration: 2.5,
             ease: "power2.inOut",
         });
 
-        // 3. Animate camera rotating back to the start
+        // ❗️ FIX: Use onComplete to fix the "glitch"
         gsap.to(camera.rotation, {
-            x: -0.1, // Go back to the tilted angle
+            x: -0.1, 
             duration: 2.5,
-            ease: "power2.inOut"
+            ease: "power2.inOut",
+            onComplete: startIntroAnimation // 👈 This calls the next animation
         });
         
-        // 4. We must wait for the zoom-in to finish (2500ms)
-        //    before we run the zoom-out animation again.
-        setTimeout(startIntroAnimation, 2500); 
+        // ❗️ FIX: Removed the buggy setTimeout
+        // setTimeout(startIntroAnimation, 2500); 
     });
 
     // --- Address Bar Logic (no changes) ---
@@ -272,11 +287,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const offsetY = Math.floor(Math.random() * 100) - 50;
             newWindow.style.transform = `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px))`;
         }
-        desktop.appendChild(newWindow);
+        zoomWrapper.appendChild(newWindow);
     }
 
-    // --- Window Dragging Logic (no changes) ---
-    desktop.addEventListener('mousedown', (e) => {
+    // --- Window Dragging Logic (Attached to zoomWrapper) ---
+    zoomWrapper.addEventListener('mousedown', (e) => {
         const clickedWindow = e.target.closest('.draggable-window');
         if (clickedWindow) {
             maxZIndex++;
@@ -284,7 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    desktop.addEventListener('click', (e) => {
+    zoomWrapper.addEventListener('click', (e) => {
         if (e.target.classList.contains('close-btn')) {
             const windowToClose = e.target.closest('.draggable-window');
             if (windowToClose) {
@@ -293,8 +308,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    desktop.addEventListener('mousedown', (e) => {
+    zoomWrapper.addEventListener('mousedown', (e) => {
         if (e.target.classList.contains('title-bar')) {
+            if (window.innerWidth <= 768) return; // Don't drag on mobile
             activeWindow = e.target.closest('.draggable-window');
             if (!activeWindow) return;
             const rect = activeWindow.getBoundingClientRect();
@@ -320,5 +336,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('mouseup', () => {
         activeWindow = null;
+    });
+
+    aboutMeBtn.addEventListener('click', () => {
+        // Get the template
+        const alertTemplate = document.getElementById('alert-template');
+        // Clone it
+        const newAlert = alertTemplate.content.cloneNode(true).firstElementChild;
+
+        // Find the buttons inside the *new clone*
+        const okBtn = newAlert.querySelector('.alert-ok-btn');
+        const closeBtn = newAlert.querySelector('.alert-close-btn');
+
+        // Function to close the alert
+        const closeAlert = () => newAlert.remove();
+
+        // Add listeners
+        okBtn.addEventListener('click', closeAlert);
+        closeBtn.addEventListener('click', closeAlert);
+        
+        // Add to page
+        zoomWrapper.appendChild(newAlert);
     });
 });
