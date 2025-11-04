@@ -11,6 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const taskbar = document.getElementById('taskbar');
     const aboutMeBtn = document.getElementById('aboutMeBtn');
     const contactBtn = document.getElementById('contactBtn');
+    const formBtn = document.getElementById('formBtn');
+    const bookmarksBar = document.getElementById('bookmarksBar');
+    const homeContent = document.getElementById('homeContent'); 
+    const companyOverview = document.getElementById('companyOverview');
     let restingXPosition = 0;
     let restingYPosition = 0;
     let mouseX = 0;
@@ -88,6 +92,53 @@ document.addEventListener('DOMContentLoaded', () => {
         const scale = isMobile ? 0.75 : 1;
         cdGroup.scale.set(scale, scale, scale);
     }
+    
+    // This function will handle the "little spin"
+    function spinCD() {
+        // Adds a full 360-degree (2 * PI) rotation to the current spin
+        gsap.to(cdGroup.rotation, {
+            z: cdGroup.rotation.z + 6.283, // 6.283 is 2 * PI
+            duration: 0.8, // 0.5 seconds
+            ease: "power2.out"
+        });
+    }
+
+    // This holds the HTML for each company overview.
+    // I pulled this from the resume you uploaded earlier.
+    const contentData = {
+        "microsoft": `
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <h2>Microsoft</h2>
+                <img src="./azure.png" style="height: 30px; image-rendering: pixelated; margin-bottom: 15px;"></img>
+            </div>
+            <ul>
+                <li>Worked within Azure health and monitoring, on of Microsoft's largest scale services</li>
+                <li>Supported incident-response by building a failover mechanism that reduced recovery time by 95% 🤩</li>
+                <li>My feature was the main mitigation used in a major Sev1 (bad) outage across multiple datacenters. Money saved! 🤑</li>
+            </ul>
+        `,
+        "aerospace": `
+            <h2>Aerospace Corporation</h2>
+            <ul>
+                <li>Engineered a data pipeline in Go to process heterogeneous satellite telemetry for a ground system testbed. Built a Docker-containerized telemetry system using MongoDB, MySQL, Grafana, and Kafka. This supported a re-architecturing push towards distributed services.</li>
+                <li>Determined the orbit of the sattelite described in this video https://www.youtube.com/watch?v=bQF51mqzrY4. This was an open problem, and I used an internal library for orbital propagation, some orbital mechanics, as well as numerical solver techniques to do it!</li>
+            </ul>
+        `,
+        "usnews": `
+            <h2>U.S. News & World Report</h2>
+            <ul>
+                <li>Built an internal quality assurance application for efficiently managing and validating School ranking data, saving hundreds of hours of manual lookup.</li>
+                <li>Utilized React with TypeScript and implemented TanStack query to fetch and cache data from a relational PostgreSQL database.</li>
+            </ul>
+        `,
+        "mitre": `
+            <h2>MITRE</h2>
+            <ul>
+                <li>Led an 8-person team on a MITRE-sponsored project to develop a full-stack internal cyber training application.</li>
+                <li>Culminated in a successful demo at MITRE HQ and approval for internal deployment.</li>
+            </ul>
+        `
+    };
     
     // Call it once to set the initial size AND resting positions
     handleResize(); 
@@ -382,5 +433,93 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Add to page
         zoomWrapper.appendChild(newContactWindow);
+    });
+
+    formBtn.addEventListener('click', () => {
+        const formTemplate = document.getElementById('form-template');
+        const newFormWindow = formTemplate.content.cloneNode(true).firstElementChild;
+
+        // --- Get Elements from the new window ---
+        const closeBtn = newFormWindow.querySelector('.alert-close-btn');
+        const contactForm = newFormWindow.querySelector('#contact-form');
+        const submitBtn = newFormWindow.querySelector('.alert-ok-btn');
+
+        // --- Close Button Logic ---
+        const closeWindow = () => newFormWindow.remove();
+        closeBtn.addEventListener('click', closeWindow);
+        
+        // --- NEW: Handle the form submission ---
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // 1. STOP the redirect
+
+            // 2. Show user it's working
+            submitBtn.textContent = "Sending...";
+            submitBtn.disabled = true;
+
+            // 3. Get the form data
+            const formData = new FormData(contactForm);
+            
+            // 4. Send the data with fetch()
+            fetch(contactForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json' // 5. This tells Formspree not to redirect
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // 6. Success!
+                    submitBtn.textContent = "Sent!";
+                    setTimeout(closeWindow, 1000); // Close window after 1s
+                } else {
+                    // 7. Error
+                    response.json().then(data => {
+                        if (Object.hasOwn(data, 'errors')) {
+                            alert(data["errors"].map(error => error["message"]).join(", "));
+                        } else {
+                            alert("Oops! Something went wrong.");
+                        }
+                        submitBtn.textContent = "Send"; // Let them try again
+                        submitBtn.disabled = false;
+                    });
+                }
+            })
+            .catch(error => {
+                // 8. Network error
+                alert("Oops! A network error occurred.");
+                submitBtn.textContent = "Send";
+                submitBtn.disabled = false;
+            });
+        });
+
+        zoomWrapper.appendChild(newFormWindow);
+    });
+
+    bookmarksBar.addEventListener('click', (e) => {
+        const clickedButton = e.target.closest('.bookmark-btn');
+        if (!clickedButton) return; // Didn't click a button
+
+        const targetID = clickedButton.dataset.target;
+
+        // 1. Do the "little spin"
+        spinCD();
+
+        // 2. Update selected state for buttons
+        bookmarksBar.querySelectorAll('.bookmark-btn').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+        clickedButton.classList.add('selected');
+
+        // 3. Swap the content
+        if (targetID === 'home') {
+            homeContent.style.display = 'block';
+            companyOverview.style.display = 'none';
+        } else {
+            // It's a company, so populate and show the overview
+            homeContent.style.display = 'none';
+            companyOverview.innerHTML = contentData[targetID];
+            companyOverview.style.display = 'block';
+        }
     });
 });

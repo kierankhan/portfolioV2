@@ -37,17 +37,21 @@
                     </div>
                 </div>
                 <div class="bookmarks-bar" id="bookmarksBar">
-                    <button class="bookmark-btn">
+                    <button class="bookmark-btn selected" data-target="home">
+                        <span>🏠</span>
+                        <span style="padding-left: 5px; font-weight: bolder;">Home</span>
+                    </button>
+                    <button class="bookmark-btn" data-target="microsoft">
                         <img src="/msft_old_logo.png" alt="Microsoft">
                         <img src="/msft_old_logo2.png" alt="Microsoft">
                     </button>
-                    <button class="bookmark-btn">
+                    <button class="bookmark-btn" data-target="aerospace">
                         <img src="/The_Aerospace_Corporation_logo.png" alt="Aerospace">
                     </button>
-                    <button class="bookmark-btn">
+                    <button class="bookmark-btn" data-target="usnews">
                         <img src="/U.S._News_&_World_Report_logo.png" alt="U.S. News">
                     </button>
-                    <button class="bookmark-btn">
+                    <button class="bookmark-btn" data-target="mitre">
                         <img src="/Mitre_Corporation_logo.png" alt="MITRE">
                     </button>
                 </div>
@@ -55,9 +59,12 @@
                     <div class="profile-container">
                         
                     </div>
-                    <div class="name-title">
+                    <div class="name-title" id="homeContent">
                         <h1>Kieran Khan</h1>
                         <p>Software Engineer</p>
+                    </div>
+                    <div class="company-overview" id="companyOverview">
+
                     </div>
                 </div>
             </div>
@@ -92,13 +99,13 @@
 
     <script type="module" src="js/main.js"></script>
     <div class="train-container" id="trainContainer">
-        <img src="./static/images/carriage_v18_car1.png" alt="train car">
+        <!-- <img src="./static/images/carriage_v18_car1.png" alt="train car">
         <img src="./static/images/carriage_v18_car1.png" alt="train car">
         <img src="./static/images/carriage_v18_car6.png" alt="train car">
         <img src="./static/images/carriage_v18_car7.png" alt="train car">
         <img src="./static/images/carriage_v18_car8.png" alt="train car">
         <img src="./static/images/carriage_v18_car9.png" alt="train car">
-        <img src="./static/images/train_v18.png" alt="train car">
+        <img src="./static/images/train_v18.png" alt="train car"> -->
     </div>
     <div class="taskbar" id="taskbar">
         <button class="taskbar-btn" id="aboutMeBtn">
@@ -107,7 +114,11 @@
         </button>
         <button class="taskbar-btn" id="contactBtn">
             <span>✉️</span>
-            <span>Contact</span>
+            <span>Contact Card</span>
+        </button>
+        <button class="taskbar-btn" id="formBtn">
+            <span>📨</span>
+            <span>Message Me</span>
         </button>
     </div>
 
@@ -144,6 +155,32 @@
             <div class="alert-controls">
                 <button class="alert-ok-btn">OK</button>
             </div>
+        </div>
+    </template>
+    <template id="form-template">
+        <div class="contact-window">
+            <div class="alert-title-bar">
+                <span>Send a Message</span>
+                <button class="window-btn alert-close-btn">×</button>
+            </div>
+            
+            <form class="contact-form" id="contact-form" action="https://formspree.io/f/xrbowrgp" method="POST">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="name" name="name" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Your Email:</label>
+                    <input type="email" name="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <textarea name="message" id="message" rows="6" required></textarea>
+                </div>
+                <div class="alert-controls">
+                    <button type="submit" class="alert-ok-btn">Send</button>
+                </div>
+            </form>
         </div>
     </template>
 </body>

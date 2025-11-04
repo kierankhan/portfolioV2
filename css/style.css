@@ -578,6 +578,53 @@ body {
 
 /*
  * ========================================
+ * Bookmark Content Styles
+ * ========================================
+ */
+
+/* Style for the "selected" bookmark button */
+.bookmark-btn.selected {
+    border-color: #808080 #dfdfdf #dfdfdf #808080; /* Sunken-in look */
+    background: #e1e1e1; /* Slightly darker silver */
+}
+
+/* New container for company info */
+.company-overview {
+    font-family: 'Serif', 'Times New Roman', Times, serif;
+    padding-left: 50px;
+    max-width: 450px; /* Give it a max width */
+    display: none; /* 👈 Hidden by default */
+}
+
+.company-overview h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.company-overview ul {
+    padding-left: 20px;
+}
+
+.company-overview li {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+/* On mobile, center the company overview */
+@media (max-width: 768px) {
+    .company-overview {
+        padding-left: 0;
+        margin-top: 20px;
+        text-align: center;
+    }
+    .company-overview ul {
+        text-align: left;
+    }
+}
+
+/*
+ * ========================================
  * Taskbar Styles
  * ========================================
  */
@@ -608,7 +655,7 @@ body {
       - 6s: DELAY (3s page load + 3s train travel)
       - forwards: stay visible when done
     */
-    animation: slide-up 1s ease-out 10s forwards;
+    animation: slide-up 1s ease-out 5s forwards;
 }
 
 @keyframes slide-up {
@@ -763,4 +810,37 @@ body {
 
 .contact-content a:hover {
     color: #1084d0;
+}
+
+/*
+ * ========================================
+ * Contact Form Styles
+ * ========================================
+ */
+.contact-form {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.form-group label {
+    font-size: 13px;
+    font-weight: bold;
+}
+.form-group input,
+.form-group textarea {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    padding: 5px;
+    border: 2px solid;
+    border-color: #808080 #dfdfdf #dfdfdf #808080;
+    background: white;
+}
+.form-group textarea {
+    resize: vertical;
 }
