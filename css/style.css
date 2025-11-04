@@ -395,7 +395,7 @@ body {
     /* Shrink the profile container and hole */
     .profile-container {
         width: 300px; /* New smaller size */
-        height: 170px; /* New smaller size */
+        height: 200px; /* New smaller size */
         flex-shrink: 0; /* Prevents it from shrinking weirdly */
     }
 
@@ -590,6 +590,9 @@ body {
     padding-left: 50px;
     max-width: 450px; /* Give it a max width */
     display: none; /* 👈 Hidden by default */
+
+    max-height: 400px; /* Match the profile hole's height */
+    overflow-y: auto;
 }
 
 .company-overview h2 {
@@ -616,6 +619,15 @@ body {
     }
     .company-overview ul {
         text-align: left;
+    }
+    .company-overview h2 {
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+    .company-overview li {
+        font-size: 12px;
+        line-height: 1.2;
+        margin-bottom: 6px;
     }
 }
 
