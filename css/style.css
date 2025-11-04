@@ -376,7 +376,7 @@ body {
     /* Make browser fill the screen */
     .browser-window {
         width: 95%;
-        height: 90vh;
+        height: 95vh;
         max-width: 100%;
         border: none;
         box-shadow: none;
@@ -395,7 +395,7 @@ body {
     /* Shrink the profile container and hole */
     .profile-container {
         width: 300px; /* New smaller size */
-        height: 150px; /* New smaller size */
+        height: 170px; /* New smaller size */
         flex-shrink: 0; /* Prevents it from shrinking weirdly */
     }
 
