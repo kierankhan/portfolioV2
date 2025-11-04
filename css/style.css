@@ -484,6 +484,10 @@ body {
         height: 10px;
         width: auto;
     }
+
+    .playing-icons {
+        display: none;
+    }
 }
 
 /*
@@ -703,6 +707,14 @@ body {
     border-color: #808080 #dfdfdf #dfdfdf #808080;
 }
 
+.playing-icons {
+    /* margin-left: auto; */ /* 👈 REMOVE THIS LINE. We'll move it to the parent. */
+    height: 24px;
+    width: auto;
+    padding-right: 5px;
+    transition: filter 0.1s ease-out; /* 👈 Add this for the hover effect */
+}
+
 /*
  * ========================================
  * Alert Window Styles
@@ -891,4 +903,48 @@ body {
         opacity: 0;
         pointer-events: none; /* Let clicks pass through */
     }
+}
+
+/*
+ * ========================================
+ * System Tray Icon & Tooltip
+ * ========================================
+ */
+.system-tray-icon {
+    position: relative; /* This is the anchor for the tooltip */
+    margin-left: auto;  /* This pushes it to the right */
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-right: 10px;
+}
+
+/* This is the hover reaction for the icon */
+.system-tray-icon:hover {
+    cursor: pointer;
+}
+.system-tray-icon:hover .playing-icons {
+    filter: brightness(1.2) contrast(1.1);
+}
+
+/* This styles the tooltip */
+.tooltip {
+    display: none; /* Hide by default */
+    position: absolute;
+    bottom: 110%; /* Position it just above the taskbar */
+    right: 0;
+    
+    /* Classic yellow tooltip style */
+    background: #ffffe1;
+    border: 1px solid #000;
+    padding: 3px 6px;
+    font-size: 12px;
+    color: #000;
+    white-space: nowrap; /* Keep it on one line */
+    z-index: 1002; /* On top of the taskbar */
+}
+
+/* This shows the tooltip on hover */
+.system-tray-icon:hover .tooltip {
+    display: block;
 }
