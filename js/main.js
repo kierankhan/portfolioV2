@@ -341,6 +341,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     flash.remove();
                 }, 3000);
                 break;
+            case 'bangladesh jumpscare':
+                const gifTemplate = document.getElementById('gif-template');
+                const newGifPopup = gifTemplate.content.cloneNode(true).firstElementChild;
+                const closeBtn = newGifPopup.querySelector('.alert-close-btn');
+
+                // 1. Define the close function
+                const closeGifPopup = () => newGifPopup.remove();
+
+                // 2. Add listener to the button
+                closeBtn.addEventListener('click', closeGifPopup);
+                
+                // 3. Add to the page
+                zoomWrapper.appendChild(newGifPopup);
+                
+                setTimeout(closeGifPopup, 1000); 
+                
+                break;
             default:
                 alert('Command not found: ' + query + '\nTry: resume, projects, github, or linkedin');
         }

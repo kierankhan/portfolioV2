@@ -948,3 +948,46 @@ body {
 .system-tray-icon:hover .tooltip {
     display: block;
 }
+
+/*
+ * ========================================
+ * GIF Easter Egg Pop-up
+ * ========================================
+ */
+.gif-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px; /* Or whatever size fits your GIF */
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #dfdfdf #808080 #808080 #dfdfdf;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    z-index: 100; /* On top of everything */
+    display: flex;
+    flex-direction: column;
+}
+
+.gif-popup-title-bar {
+    background: linear-gradient(to right, #000080, #1084d0);
+    color: white;
+    padding: 3px 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: default;
+}
+
+.gif-popup-content {
+    padding: 2px; /* Gives a nice inner border */
+    background: #fff; /* White background */
+}
+
+.gif-popup-content img {
+    width: 100%; /* Make the GIF fill the container */
+    height: auto;
+    display: block; /* Removes any bottom spacing */
+}
