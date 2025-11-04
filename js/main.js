@@ -85,11 +85,11 @@ document.addEventListener('DOMContentLoaded', () => {
         renderer.setSize(window.innerWidth, window.innerHeight);
 
         restingXPosition = isMobile ? 0 : -3.3;
-        restingYPosition = isMobile ? 0.3 : -0.5;
+        restingYPosition = isMobile ? 1.5 : -0.5;
         cdGroup.position.x = restingXPosition;
         cdGroup.position.y = restingYPosition;
 
-        const scale = isMobile ? 0.75 : 1;
+        const scale = isMobile ? 0.6 : 1;
         cdGroup.scale.set(scale, scale, scale);
     }
     
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // I pulled this from the resume you uploaded earlier.
     const contentData = {
         "microsoft": `
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+            <div style="display: flex; flex-direction: row; justify-content: left; gap: 10px;">
                 <h2>Microsoft</h2>
                 <img src="./azure.png" style="height: 30px; image-rendering: pixelated; margin-bottom: 15px;"></img>
             </div>
@@ -118,14 +118,18 @@ document.addEventListener('DOMContentLoaded', () => {
             </ul>
         `,
         "aerospace": `
-            <h2>Aerospace Corporation</h2>
+            <div style="display: flex; flex-direction: row; justify-content: left; gap: 10px;">
+                <h2>Aerospace Corporation</h2>
+            </div>
             <ul>
                 <li>Engineered a data pipeline in Go to process heterogeneous satellite telemetry for a ground system testbed. Built a Docker-containerized telemetry system using MongoDB, MySQL, Grafana, and Kafka. This supported a re-architecturing push towards distributed reconfigurable micro-services. 🚀</li>
                 <li>Determined the orbit of the satellite described in <a href="https://www.youtube.com/watch?v=bQF51mqzrY4">this</a> video. This was an open problem, and I used an internal library for orbital propagation, some orbital mechanics, as well as numerical solver techniques to do it! 🛰️</li>
             </ul>
         `,
         "usnews": `
-            <h2>U.S. News & World Report</h2>
+            <div style="display: flex; flex-direction: row; justify-content: left; gap: 10px;">
+                <h2>U.S. News & World Report</h2>
+            </div>
             <ul>
                 <li>Built a data-exploration application targetted towards non-technical staff to view, compare, visualize, and validate School ranking data.</li>
                 <li>Demo'd at U.S. News headquarters to company leadership, including the CTO and lead engineers!</li>
@@ -133,7 +137,9 @@ document.addEventListener('DOMContentLoaded', () => {
             </ul>
         `,
         "mitre": `
-            <h2>MITRE</h2>
+            <div style="display: flex; flex-direction: row; justify-content: left; gap: 10px;">
+                <h2>MITRE</h2>
+            </div>
             <ul>
                 <li>Led an 8-person team on a MITRE-sponsored project to develop a full-stack internal cyber training application.</li>
                 <li>Culminated in a successful demo at MITRE HQ and approval for internal deployment.</li>
