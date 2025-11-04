@@ -395,7 +395,7 @@ body {
     /* Shrink the profile container and hole */
     .profile-container {
         width: 300px; /* New smaller size */
-        height: 200px; /* New smaller size */
+        height: 220px; /* New smaller size */
         flex-shrink: 0; /* Prevents it from shrinking weirdly */
     }
 
