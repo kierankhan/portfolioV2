@@ -426,7 +426,7 @@ body {
     .name-title {
         position: relative; /* Un-stick it from the side */
         padding-left: 0;
-        margin-top: 100px;
+        margin-top: 30px;
         opacity: 1; /* Make it visible immediately */
         color: black; /* Make it readable on the background */
     }
@@ -558,6 +558,7 @@ body {
     cursor: pointer;
     color: #000; /* 👈 Add this */
     -webkit-appearance: none;
+    height: 28px;
 }
 
 .bookmark-btn:active {
@@ -571,6 +572,13 @@ body {
     object-fit: contain;
     image-rendering: pixelated; /* Keeps pixel art logos sharp */
 }
+
+/* .bookmark-btn span {
+    height: 20px;
+    width: auto;
+    justify-content: center;
+    align-items: center;
+} */
 
 /*
  * ========================================
@@ -614,7 +622,7 @@ body {
 @media (max-width: 768px) {
     .company-overview {
         padding-left: 0;
-        margin-top: 20px;
+        margin-top: 30px;
         text-align: center;
     }
     .company-overview ul {
