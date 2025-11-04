@@ -112,23 +112,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 <img src="./azure.png" style="height: 30px; image-rendering: pixelated; margin-bottom: 15px;"></img>
             </div>
             <ul>
-                <li>Worked within Azure health and monitoring, on of Microsoft's largest scale services</li>
-                <li>Supported incident-response by building a failover mechanism that reduced recovery time by 95% 🤩</li>
+                <li>Worked within Azure health and monitoring, on of Microsoft's largest scale services.</li>
+                <li>Supported incident-response by building a failover mechanism that reduced recovery time by 95%. 🤩</li>
                 <li>My feature was the main mitigation used in a major Sev1 (bad) outage across multiple datacenters. Money saved! 🤑</li>
             </ul>
         `,
         "aerospace": `
             <h2>Aerospace Corporation</h2>
             <ul>
-                <li>Engineered a data pipeline in Go to process heterogeneous satellite telemetry for a ground system testbed. Built a Docker-containerized telemetry system using MongoDB, MySQL, Grafana, and Kafka. This supported a re-architecturing push towards distributed services.</li>
-                <li>Determined the orbit of the sattelite described in this video https://www.youtube.com/watch?v=bQF51mqzrY4. This was an open problem, and I used an internal library for orbital propagation, some orbital mechanics, as well as numerical solver techniques to do it!</li>
+                <li>Engineered a data pipeline in Go to process heterogeneous satellite telemetry for a ground system testbed. Built a Docker-containerized telemetry system using MongoDB, MySQL, Grafana, and Kafka. This supported a re-architecturing push towards distributed reconfigurable micro-services. 🚀</li>
+                <li>Determined the orbit of the satellite described in <a href="https://www.youtube.com/watch?v=bQF51mqzrY4">this</a> video. This was an open problem, and I used an internal library for orbital propagation, some orbital mechanics, as well as numerical solver techniques to do it! 🛰️</li>
             </ul>
         `,
         "usnews": `
             <h2>U.S. News & World Report</h2>
             <ul>
-                <li>Built an internal quality assurance application for efficiently managing and validating School ranking data, saving hundreds of hours of manual lookup.</li>
-                <li>Utilized React with TypeScript and implemented TanStack query to fetch and cache data from a relational PostgreSQL database.</li>
+                <li>Built a data-exploration application targetted towards non-technical staff to view, compare, visualize, and validate School ranking data.</li>
+                <li>Demo'd at U.S. News headquarters to company leadership, including the CTO and lead engineers!</li>
+                <img src="./surprise_emoji.jpg" style="height: 30px; image-rendering: pixelated;"></img>
             </ul>
         `,
         "mitre": `

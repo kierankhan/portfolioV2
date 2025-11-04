@@ -408,14 +408,6 @@ body {
         font-size: 36px;
     }
 
-    /* * This is CRITICAL: 
-     * We must shrink the canvas *element* to match its parent 
-     */
-    #cd-scene {
-        width: 300px;
-        height: 300px;
-    }
-
     /* * We must also provide a *new* orbit animation
      * for the smaller 300px container.
      */
@@ -481,6 +473,7 @@ body {
     .orbit-container {
         left: 50%; /* Center the logos */
         width: 300px; /* Match the smaller canvas size */
+        top: 10%;
     }
 
     .bookmark-btn {
@@ -488,7 +481,7 @@ body {
     }
     .bookmark-btn img {
         height: 10px;
-        width: 70%;
+        width: auto;
     }
 }
 
@@ -562,6 +555,8 @@ body {
     font-family: 'Courier New', monospace;
     font-size: 12px;
     cursor: pointer;
+    color: #000; /* 👈 Add this */
+    -webkit-appearance: none;
 }
 
 .bookmark-btn:active {
@@ -571,7 +566,7 @@ body {
 /* Styles the small logo inside the button */
 .bookmark-btn img {
     height: 20px;
-    width: 90%;
+    width: auto;
     object-fit: contain;
     image-rendering: pixelated; /* Keeps pixel art logos sharp */
 }
@@ -679,6 +674,8 @@ body {
     font-family: 'Courier New', monospace;
     font-size: 13px;
     cursor: pointer;
+    color: #000; /* 👈 Add this */
+    -webkit-appearance: none;
 }
 
 .taskbar-btn:active {
@@ -760,6 +757,8 @@ body {
     font-family: 'Courier New', monospace;
     font-size: 13px;
     cursor: pointer;
+    color: #000; /* 👈 Add this */
+    -webkit-appearance: none;
 }
 .alert-ok-btn:active, .alert-close-btn:active {
     border-color: #808080 #dfdfdf #dfdfdf #808080;
