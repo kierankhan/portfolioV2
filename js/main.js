@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <img src="./azure.png" style="height: 30px; image-rendering: pixelated; margin-bottom: 15px;"></img>
             </div>
             <ul>
-                <li>Worked within Azure health and monitoring, on of Microsoft's largest scale services.</li>
+                <li>Worked within Azure health and monitoring, one of Microsoft's largest scale services.</li>
                 <li>Supported incident-response by building a failover mechanism that reduced recovery time by 95%. 🤩</li>
                 <li>My feature was the main mitigation used in a major Sev1 (bad) outage across multiple datacenters. Money saved! 🤑</li>
             </ul>
