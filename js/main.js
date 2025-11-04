@@ -329,6 +329,18 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'are my balls wrinkly?':
                 window.open('https://wrinkle-identifier-db48a.web.app/', '_blank');
                 break;
+            case 'flashbang':
+                const flash = document.createElement('div');
+                flash.className = 'flashbang-overlay';
+                
+                // 2. Add it to the main wrapper
+                zoomWrapper.appendChild(flash);
+                
+                // 3. Remove it after the animation is done (1.5s)
+                setTimeout(() => {
+                    flash.remove();
+                }, 3000);
+                break;
             default:
                 alert('Command not found: ' + query + '\nTry: resume, projects, github, or linkedin');
         }
