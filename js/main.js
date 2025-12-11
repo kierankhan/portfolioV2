@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 1. Get Elements ---
     const canvas = document.getElementById('cd-scene');
-    const zoomWrapper = document.getElementById('zoomWrapper'); 
+    const zoomWrapper = document.getElementById('zoomWrapper');
     const desktop = document.getElementById('desktop');
     const train = document.getElementById('trainContainer');
     const taskbar = document.getElementById('taskbar');
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const contactBtn = document.getElementById('contactBtn');
     const formBtn = document.getElementById('formBtn');
     const bookmarksBar = document.getElementById('bookmarksBar');
-    const homeContent = document.getElementById('homeContent'); 
+    const homeContent = document.getElementById('homeContent');
     const companyOverview = document.getElementById('companyOverview');
     let restingXPosition = 0;
     let restingYPosition = 0;
@@ -23,8 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 2. Basic 3D Scene Setup ---
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, 1, 0.001, 1000);
-    const renderer = new THREE.WebGLRenderer({ 
-        canvas: canvas, 
+    const renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
         alpha: true
     });
 
@@ -37,12 +37,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // ❗️ FIX: Paths in /public must start with a /
     const faceTexture = textureLoader.load('./kieran.jpg', (texture) => {
     });
-    
+
     const faceMaterial = new THREE.MeshPhysicalMaterial({
         map: faceTexture,
         side: THREE.DoubleSide,
     });
-    
+
     const faceMesh = new THREE.Mesh(cdGeometry, faceMaterial);
     cdGroup.add(faceMesh);
 
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
     directionalLight.position.set(5, 5, 5);
     scene.add(directionalLight);
 
-    
+
     // --- ❗️ MOVED SECTION 7 HERE ---
     // We must run handleResize *before* setting the camera position
     function handleResize() {
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const scale = isMobile ? 0.65 : 1;
         cdGroup.scale.set(scale, scale, scale);
     }
-    
+
     // This function will handle the "little spin"
     function spinCD() {
         // Adds a full 360-degree (2 * PI) rotation to the current spin
@@ -146,10 +146,10 @@ document.addEventListener('DOMContentLoaded', () => {
             </ul>
         `
     };
-    
+
     // Call it once to set the initial size AND resting positions
-    handleResize(); 
-    
+    handleResize();
+
     // Add the event listener to call it on every resize
     window.addEventListener('resize', handleResize);
     // --- ❗️ END MOVED SECTION ---
@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
     camera.position.x = restingXPosition;
     camera.position.y = restingYPosition;
     camera.position.z = 0.1;
-    camera.rotation.x = -0.1; 
+    camera.rotation.x = -0.1;
 
     // --- 5. Handle Page Load Animation ---
     function startIntroAnimation() {
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
         gsap.to(camera.position, {
             x: 0,
             y: 0,
-            z: 10, 
+            z: 10,
             duration: 2.5,
             ease: "power2.inOut",
         });
@@ -190,15 +190,28 @@ document.addEventListener('DOMContentLoaded', () => {
             ease: "power2.inOut"
         });
     }
-    
-    setTimeout(startIntroAnimation, 100); 
+
+    setTimeout(startIntroAnimation, 100);
+
+    // --- Try Me Arrow Logic ---
+    const tryMeArrow = document.getElementById('tryMeArrow');
+    if (tryMeArrow) {
+        // Wait a bit, then fade it out
+        setTimeout(() => {
+            tryMeArrow.classList.add('fade-out');
+            // Remove from DOM after transition completes
+            setTimeout(() => {
+                tryMeArrow.remove();
+            }, 1000); // Match CSS transition duration
+        }, 5000); // Show for 5 seconds
+    }
 
     // --- 6. The Animation Loop (Makes the CD Spin & Tilt) ---
     function animate() {
-        requestAnimationFrame(animate); 
-        
+        requestAnimationFrame(animate);
+
         // This is your existing spin
-        cdGroup.rotation.z += 0.005; 
+        cdGroup.rotation.z += 0.005;
 
         // --- ADD TILT LOGIC ---
         // Set the intensity of the tilt (lower = more subtle)
@@ -214,18 +227,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         renderer.render(scene, camera);
     }
-    
-    animate(); 
+
+    animate();
 
     // --- 7. Handle Window Resizing (MOVED) ---
     // (This section is now above)
-    
+
     // --- 8. All Your Window/Search Bar Logic ---
     const addressBar = document.getElementById('addressBar');
     const suggestions = document.getElementById('suggestions');
     const windowTemplate = document.getElementById('window-template');
     const closeBtn = document.getElementById('closeBtn');
-    
+
     let maxZIndex = 10;
     let activeWindow = null;
     let dragOffsetX = 0;
@@ -233,7 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const navOptions = ['resume', 'projects', 'github', 'linkedin'];
 
     // --- Main Window Close Button (Restart animation) ---
-   closeBtn.addEventListener('click', (e) => {
+    closeBtn.addEventListener('click', (e) => {
         // --- 1. Close all open sub-windows ---
         const openWindows = document.querySelectorAll('.draggable-window, .alert-window, .contact-window');
         openWindows.forEach(window => window.remove());
@@ -245,24 +258,24 @@ document.addEventListener('DOMContentLoaded', () => {
         canvas.style.zIndex = 13;
         train.classList.remove('driving');
         taskbar.classList.remove('show');
-        
+
         // ❗️ FIX: Animate camera X and Y back to the CD's resting position
         gsap.to(camera.position, {
             x: restingXPosition,
             y: restingYPosition,
-            z: 0.1, 
+            z: 0.1,
             duration: 2.5,
             ease: "power2.inOut",
         });
 
         // ❗️ FIX: Use onComplete to fix the "glitch"
         gsap.to(camera.rotation, {
-            x: -0.1, 
+            x: -0.1,
             duration: 2.5,
             ease: "power2.inOut",
             onComplete: startIntroAnimation // 👈 This calls the next animation
         });
-        
+
         // ❗️ FIX: Removed the buggy setTimeout
         // setTimeout(startIntroAnimation, 2500); 
     });
@@ -273,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (value) {
             const matches = navOptions.filter(key => key.includes(value));
             if (matches.length > 0) {
-                suggestions.innerHTML = matches.map(match => 
+                suggestions.innerHTML = matches.map(match =>
                     `<div class="suggestion-item" data-value="${match}">${match}</div>`
                 ).join('');
                 suggestions.classList.add('show');
@@ -303,7 +316,19 @@ document.addEventListener('DOMContentLoaded', () => {
             addressBar.value = '';
         }
     });
-    
+
+    const searchIcon = document.getElementById('searchIcon');
+    if (searchIcon) {
+        searchIcon.addEventListener('click', () => {
+            const value = addressBar.value;
+            if (value) {
+                suggestions.classList.remove('show');
+                handleSearch(value);
+                addressBar.value = '';
+            }
+        });
+    }
+
     document.addEventListener('click', (e) => {
         if (!addressBar.contains(e.target) && !suggestions.contains(e.target)) {
             suggestions.classList.remove('show');
@@ -332,10 +357,10 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'flashbang':
                 const flash = document.createElement('div');
                 flash.className = 'flashbang-overlay';
-                
+
                 // 2. Add it to the main wrapper
                 zoomWrapper.appendChild(flash);
-                
+
                 // 3. Remove it after the animation is done (1.5s)
                 setTimeout(() => {
                     flash.remove();
@@ -351,12 +376,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // 2. Add listener to the button
                 closeBtn.addEventListener('click', closeGifPopup);
-                
+
                 // 3. Add to the page
                 zoomWrapper.appendChild(newGifPopup);
-                
-                setTimeout(closeGifPopup, 1000); 
-                
+
+                setTimeout(closeGifPopup, 1000);
+
                 break;
             default:
                 alert('Command not found: ' + query + '\nTry: resume, projects, github, or linkedin');
@@ -445,7 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add listeners
         okBtn.addEventListener('click', closeAlert);
         closeBtn.addEventListener('click', closeAlert);
-        
+
         // Add to page
         zoomWrapper.appendChild(newAlert);
     });
@@ -466,7 +491,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add listeners
         okBtn.addEventListener('click', closeWindow);
         closeBtn.addEventListener('click', closeWindow);
-        
+
         // Add to page
         zoomWrapper.appendChild(newContactWindow);
     });
@@ -483,7 +508,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- Close Button Logic ---
         const closeWindow = () => newFormWindow.remove();
         closeBtn.addEventListener('click', closeWindow);
-        
+
         // --- NEW: Handle the form submission ---
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault(); // 1. STOP the redirect
@@ -494,7 +519,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 3. Get the form data
             const formData = new FormData(contactForm);
-            
+
             // 4. Send the data with fetch()
             fetch(contactForm.action, {
                 method: 'POST',
@@ -503,30 +528,30 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Accept': 'application/json' // 5. This tells Formspree not to redirect
                 }
             })
-            .then(response => {
-                if (response.ok) {
-                    // 6. Success!
-                    submitBtn.textContent = "Sent!";
-                    setTimeout(closeWindow, 1000); // Close window after 1s
-                } else {
-                    // 7. Error
-                    response.json().then(data => {
-                        if (Object.hasOwn(data, 'errors')) {
-                            alert(data["errors"].map(error => error["message"]).join(", "));
-                        } else {
-                            alert("Oops! Something went wrong.");
-                        }
-                        submitBtn.textContent = "Send"; // Let them try again
-                        submitBtn.disabled = false;
-                    });
-                }
-            })
-            .catch(error => {
-                // 8. Network error
-                alert("Oops! A network error occurred.");
-                submitBtn.textContent = "Send";
-                submitBtn.disabled = false;
-            });
+                .then(response => {
+                    if (response.ok) {
+                        // 6. Success!
+                        submitBtn.textContent = "Sent!";
+                        setTimeout(closeWindow, 1000); // Close window after 1s
+                    } else {
+                        // 7. Error
+                        response.json().then(data => {
+                            if (Object.hasOwn(data, 'errors')) {
+                                alert(data["errors"].map(error => error["message"]).join(", "));
+                            } else {
+                                alert("Oops! Something went wrong.");
+                            }
+                            submitBtn.textContent = "Send"; // Let them try again
+                            submitBtn.disabled = false;
+                        });
+                    }
+                })
+                .catch(error => {
+                    // 8. Network error
+                    alert("Oops! A network error occurred.");
+                    submitBtn.textContent = "Send";
+                    submitBtn.disabled = false;
+                });
         });
 
         zoomWrapper.appendChild(newFormWindow);

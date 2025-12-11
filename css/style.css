@@ -29,8 +29,9 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 2; /* Sits in the middle */
-    
+    z-index: 2;
+    /* Sits in the middle */
+
     /* This "punches" a hole in the canvas so the
        browser UI behind it can be clicked */
     pointer-events: none;
@@ -44,12 +45,13 @@ body {
     justify-content: center;
     position: relative;
     background-image: url('../static/images/winxp.jpg');
-    
+
     /* These properties ensure it covers the screen perfectly */
     background-size: cover;
     background-position: center;
-    z-index: 1; /* Sits at the back */
-    
+    z-index: 1;
+    /* Sits at the back */
+
     /* * REMOVE opacity: 0 and transition.
      * The desktop should be visible from the start,
      * just scaled up by the wrapper.
@@ -70,7 +72,7 @@ body {
     background: #c0c0c0;
     border: 2px solid;
     border-color: #dfdfdf #808080 #808080 #dfdfdf;
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
 }
@@ -142,11 +144,15 @@ body {
 
 .content-area {
     flex: 1;
-    background-color: white; /* 1. Set the base color */
-    
-    /* 2. Add the noise image on top */
-    background-image: url('../static/images/noise.png'); /* Assumes your file is in /public/noise.png */
-    background-repeat: repeat; /* 3. Tile the image */
+    background-color: white;
+    /* 1. Set the base color */
+
+    /* 2. Add the noise animation */
+    /* background-image: url('../static/images/noise.png'); */
+    animation: noise-cycle 2s steps(1) infinite;
+    /* 0.5s per image * 4 images = 2s */
+    background-repeat: repeat;
+    /* 3. Tile the image */
     background-size: cover;
 
     position: relative;
@@ -161,20 +167,20 @@ body {
     width: 520px;
     height: 100%;
     /* We need to make sure it sits on top of the name */
-    z-index: 5; 
+    z-index: 5;
 }
 
 .profile-hole {
     width: 400px;
     height: 400px;
     border-radius: 50%;
-    background: transparent; 
+    background: transparent;
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-    
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+
     /* Add this line to clip the canvas */
     /* overflow: hidden;  */
 }
@@ -198,12 +204,12 @@ body {
 .orbit-container {
     position: fixed;
     top: 55%;
-    
+
     /* * Tweak this % to align the logos with the 3D disk.
      * It should be less than 50%.
      */
     left: 33.2%;
-    
+
     width: 500px;
     height: 100vh;
     transform: translate(-50%, -50%);
@@ -255,6 +261,7 @@ body {
         */
         transform: rotate(0deg) translateX(250px) rotate(90deg);
     }
+
     to {
         /*
          1. rotate(360deg): Move it all the way around the circle.
@@ -281,12 +288,12 @@ body {
 .name-title h1 {
     font-size: 48px;
     margin-bottom: 5px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .name-title p {
     font-size: 16px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .suggestions {
@@ -319,8 +326,46 @@ body {
 }
 
 .address-wrapper {
-    flex: 1;
     position: relative;
+}
+
+.search-icon {
+    cursor: pointer;
+    transition: filter 0.2s ease;
+    margin-left: 5px;
+    /* Add a little space */
+}
+
+.search-icon:hover {
+    filter: brightness(1.2) drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
+}
+
+.try-me-arrow {
+    /* Removed absolute positioning */
+    font-weight: bold;
+    font-size: 14px;
+    color: #000;
+    white-space: nowrap;
+    animation: bounceHorizontal 1s infinite alternate;
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 1s ease-out;
+    margin-left: 10px;
+    /* Add some spacing */
+}
+
+.try-me-arrow.fade-out {
+    opacity: 0;
+}
+
+@keyframes bounceHorizontal {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(10px);
+    }
 }
 
 /* Add this to your existing style.css */
@@ -331,23 +376,24 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    
+
     /* Make it smaller than the main window */
     width: 70%;
     height: 60%;
     max-width: 800px;
-    
+
     /* Ensure it's on top */
     z-index: 12;
-    
+
     /* Add a nice drop shadow to distinguish it */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 }
 
 /* Make the title bar a "move" cursor */
 .draggable-window .title-bar {
     cursor: move;
-    user-select: none; /* Prevents text selection while dragging */
+    user-select: none;
+    /* Prevents text selection while dragging */
 }
 
 /* Style the content area for the new window */
@@ -355,8 +401,9 @@ body {
     padding: 10px;
     box-sizing: border-box;
     /* Allow scrolling if content overflows */
-    overflow: auto; 
-    background: #fff; /* Ensure it has a white background */
+    overflow: auto;
+    background: #fff;
+    /* Ensure it has a white background */
 }
 
 /* This is for an iframe, which is the easiest way to load content */
@@ -394,9 +441,12 @@ body {
 
     /* Shrink the profile container and hole */
     .profile-container {
-        width: 300px; /* New smaller size */
-        height: 220px; /* New smaller size */
-        flex-shrink: 0; /* Prevents it from shrinking weirdly */
+        width: 300px;
+        /* New smaller size */
+        height: 220px;
+        /* New smaller size */
+        flex-shrink: 0;
+        /* Prevents it from shrinking weirdly */
     }
 
     .profile-hole {
@@ -417,6 +467,7 @@ body {
             /* Radius is 300px / 2 = 150px */
             transform: rotate(0deg) translateX(150px) rotate(90deg);
         }
+
         to {
             transform: rotate(360deg) translateX(150px) rotate(90deg);
         }
@@ -424,11 +475,14 @@ body {
 
     /* Fix the name title positioning */
     .name-title {
-        position: relative; /* Un-stick it from the side */
+        position: relative;
+        /* Un-stick it from the side */
         padding-left: 0;
         margin-top: 30px;
-        opacity: 1; /* Make it visible immediately */
-        color: black; /* Make it readable on the background */
+        opacity: 1;
+        /* Make it visible immediately */
+        color: black;
+        /* Make it readable on the background */
     }
 
     .draggable-window {
@@ -436,12 +490,12 @@ body {
         width: 100%;
         height: 100%;
         max-width: none;
-        
+
         /* Reset its position */
         top: 0;
         left: 0;
         transform: translate(0%, 0%);
-        
+
         /* Remove borders for a seamless look */
         border: none;
         box-shadow: none;
@@ -471,15 +525,19 @@ body {
         overflow-y: auto;
         z-index: 1000;
     }
+
     .orbit-container {
-        left: 50%; /* Center the logos */
-        width: 300px; /* Match the smaller canvas size */
+        left: 50%;
+        /* Center the logos */
+        width: 300px;
+        /* Match the smaller canvas size */
         top: 10%;
     }
 
     .bookmark-btn {
         padding: 4px;
     }
+
     .bookmark-btn img {
         height: 10px;
         width: auto;
@@ -487,6 +545,14 @@ body {
 
     .playing-icons {
         display: none;
+    }
+
+    .try-me-arrow {
+        opacity: 0;
+    }
+
+    .taskbar-btn {
+        font-size: 11px;
     }
 }
 
@@ -496,35 +562,41 @@ body {
  * ========================================
  */
 .train-container {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  z-index: 11;
-  transform: translateX(-100%); /* This is now the default "parked" state */
-  transition: transform 1s ease; /* Makes it hide smoothly if X is pressed mid-animation */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    z-index: 11;
+    transform: translateX(-100%);
+    /* This is now the default "parked" state */
+    transition: transform 1s ease;
+    /* Makes it hide smoothly if X is pressed mid-animation */
 }
 
 /* This new class will trigger the animation */
 .train-container.driving {
-  animation: drive-by 8s linear 3s forwards;
+    animation: drive-by 8s linear 3s forwards;
 }
 
 .train-container img {
-  height: 45px; /* You can adjust the size of your train */
-  width: auto;
-  /* Optional: makes pixel art look crisp */
-  image-rendering: pixelated; 
+    height: 45px;
+    /* You can adjust the size of your train */
+    width: auto;
+    /* Optional: makes pixel art look crisp */
+    image-rendering: pixelated;
 }
 
 /* This defines the animation steps */
 @keyframes drive-by {
-  from {
-    transform: translateX(-100%); /* Start state (off-screen left) */
-  }
-  to {
-    transform: translateX(100vw); /* End state (off-screen right) */
-  }
+    from {
+        transform: translateX(-100%);
+        /* Start state (off-screen left) */
+    }
+
+    to {
+        transform: translateX(100vw);
+        /* End state (off-screen right) */
+    }
 }
 
 /* Hide the train on mobile, it will be too distracting */
@@ -542,12 +614,15 @@ body {
 .bookmarks-bar {
     display: flex;
     align-items: center;
-    gap: 4px; /* Space between buttons */
+    gap: 4px;
+    /* Space between buttons */
     padding: 4px 5px;
-    background: #c0c0c0; /* Match address bar silver */
+    background: #c0c0c0;
+    /* Match address bar silver */
     border-bottom: 2px solid;
     border-color: #dfdfdf #808080 #808080 #dfdfdf;
-    flex-wrap: wrap; /* Allows buttons to wrap on small screens */
+    flex-wrap: wrap;
+    /* Allows buttons to wrap on small screens */
 }
 
 .bookmark-btn {
@@ -556,17 +631,20 @@ body {
     padding: 2px 6px;
     background: #c0c0c0;
     border: 2px solid;
-    border-color: #dfdfdf #808080 #808080 #dfdfdf; /* 3D button */
+    border-color: #dfdfdf #808080 #808080 #dfdfdf;
+    /* 3D button */
     font-family: 'Courier New', monospace;
     font-size: 12px;
     cursor: pointer;
-    color: #000; /* 👈 Add this */
+    color: #000;
+    /* 👈 Add this */
     -webkit-appearance: none;
     height: 28px;
 }
 
 .bookmark-btn:active {
-    border-color: #808080 #dfdfdf #dfdfdf #808080; /* Sunken-in look */
+    border-color: #808080 #dfdfdf #dfdfdf #808080;
+    /* Sunken-in look */
 }
 
 /* Styles the small logo inside the button */
@@ -574,7 +652,8 @@ body {
     height: 20px;
     width: auto;
     object-fit: contain;
-    image-rendering: pixelated; /* Keeps pixel art logos sharp */
+    image-rendering: pixelated;
+    /* Keeps pixel art logos sharp */
 }
 
 /* .bookmark-btn span {
@@ -592,18 +671,23 @@ body {
 
 /* Style for the "selected" bookmark button */
 .bookmark-btn.selected {
-    border-color: #808080 #dfdfdf #dfdfdf #808080; /* Sunken-in look */
-    background: #e1e1e1; /* Slightly darker silver */
+    border-color: #808080 #dfdfdf #dfdfdf #808080;
+    /* Sunken-in look */
+    background: #e1e1e1;
+    /* Slightly darker silver */
 }
 
 /* New container for company info */
 .company-overview {
     font-family: 'Serif', 'Times New Roman', Times, serif;
     padding-left: 50px;
-    max-width: 450px; /* Give it a max width */
-    display: none; /* 👈 Hidden by default */
+    max-width: 450px;
+    /* Give it a max width */
+    display: none;
+    /* 👈 Hidden by default */
 
-    max-height: 400px; /* Match the profile hole's height */
+    max-height: 400px;
+    /* Match the profile hole's height */
     overflow-y: auto;
 }
 
@@ -629,13 +713,16 @@ body {
         margin-top: 30px;
         text-align: center;
     }
+
     .company-overview ul {
         text-align: left;
     }
+
     .company-overview h2 {
         font-size: 22px;
         margin-bottom: 10px;
     }
+
     .company-overview li {
         font-size: 12px;
         line-height: 1.2;
@@ -653,11 +740,13 @@ body {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 32px;
+    height: 36px;
     gap: 5px;
-    background: #c0c0c0; /* Windows silver */
+    background: #c0c0c0;
+    /* Windows silver */
     border-top: 2px solid #dfdfdf;
-    z-index: 1001; /* On top of logos/train */
+    z-index: 1001;
+    /* On top of logos/train */
     display: flex;
     align-items: center;
     padding: 0 4px;
@@ -682,6 +771,7 @@ body {
     from {
         transform: translateY(100%);
     }
+
     to {
         transform: translateY(0);
     }
@@ -691,7 +781,7 @@ body {
     display: flex;
     align-items: center;
     gap: 5px;
-    height: 26px;
+    height: 30px;
     padding: 0 8px;
     background: #c0c0c0;
     border: 2px solid;
@@ -699,7 +789,9 @@ body {
     font-family: 'Courier New', monospace;
     font-size: 13px;
     cursor: pointer;
-    color: #000; /* 👈 Add this */
+    color: #000;
+    overflow: hidden;
+    /* 👈 Add this */
     -webkit-appearance: none;
 }
 
@@ -707,12 +799,19 @@ body {
     border-color: #808080 #dfdfdf #dfdfdf #808080;
 }
 
+.taskbar-btn-icons {
+    width: 17px;
+    height: 17px;
+}
+
 .playing-icons {
-    /* margin-left: auto; */ /* 👈 REMOVE THIS LINE. We'll move it to the parent. */
+    /* margin-left: auto; */
+    /* 👈 REMOVE THIS LINE. We'll move it to the parent. */
     height: 24px;
     width: auto;
     padding-right: 5px;
-    transition: filter 0.1s ease-out; /* 👈 Add this for the hover effect */
+    transition: filter 0.1s ease-out;
+    /* 👈 Add this for the hover effect */
 }
 
 /*
@@ -729,8 +828,9 @@ body {
     background: #c0c0c0;
     border: 2px solid;
     border-color: #dfdfdf #808080 #808080 #dfdfdf;
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
-    z-index: 100; /* On top of everything */
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    /* On top of everything */
     display: flex;
     flex-direction: column;
 }
@@ -790,10 +890,13 @@ body {
     font-family: 'Courier New', monospace;
     font-size: 13px;
     cursor: pointer;
-    color: #000; /* 👈 Add this */
+    color: #000;
+    /* 👈 Add this */
     -webkit-appearance: none;
 }
-.alert-ok-btn:active, .alert-close-btn:active {
+
+.alert-ok-btn:active,
+.alert-close-btn:active {
     border-color: #808080 #dfdfdf #dfdfdf #808080;
 }
 
@@ -811,8 +914,9 @@ body {
     background: #c0c0c0;
     border: 2px solid;
     border-color: #dfdfdf #808080 #808080 #dfdfdf;
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
-    z-index: 100; /* On top of everything */
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    /* On top of everything */
     display: flex;
     flex-direction: column;
 }
@@ -855,15 +959,18 @@ body {
     flex-direction: column;
     gap: 10px;
 }
+
 .form-group {
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
+
 .form-group label {
     font-size: 13px;
     font-weight: bold;
 }
+
 .form-group input,
 .form-group textarea {
     font-family: 'Courier New', monospace;
@@ -873,6 +980,7 @@ body {
     border-color: #808080 #dfdfdf #dfdfdf #808080;
     background: white;
 }
+
 .form-group textarea {
     resize: vertical;
 }
@@ -889,8 +997,9 @@ body {
     width: 100vw;
     height: 100vh;
     background: white;
-    z-index: 9999; /* On top of absolutely everything */
-    
+    z-index: 9999;
+    /* On top of absolutely everything */
+
     /* Start bright, then fade out */
     animation: flash-fade 5s ease-out forwards;
 }
@@ -899,9 +1008,11 @@ body {
     0% {
         opacity: 1;
     }
+
     100% {
         opacity: 0;
-        pointer-events: none; /* Let clicks pass through */
+        pointer-events: none;
+        /* Let clicks pass through */
     }
 }
 
@@ -911,8 +1022,10 @@ body {
  * ========================================
  */
 .system-tray-icon {
-    position: relative; /* This is the anchor for the tooltip */
-    margin-left: auto;  /* This pushes it to the right */
+    position: relative;
+    /* This is the anchor for the tooltip */
+    margin-left: auto;
+    /* This pushes it to the right */
     display: flex;
     align-items: center;
     height: 100%;
@@ -923,25 +1036,30 @@ body {
 .system-tray-icon:hover {
     cursor: pointer;
 }
+
 .system-tray-icon:hover .playing-icons {
     filter: brightness(1.2) contrast(1.1);
 }
 
 /* This styles the tooltip */
 .tooltip {
-    display: none; /* Hide by default */
+    display: none;
+    /* Hide by default */
     position: absolute;
-    bottom: 110%; /* Position it just above the taskbar */
+    bottom: 110%;
+    /* Position it just above the taskbar */
     right: 0;
-    
+
     /* Classic yellow tooltip style */
     background: #ffffe1;
     border: 1px solid #000;
     padding: 3px 6px;
     font-size: 12px;
     color: #000;
-    white-space: nowrap; /* Keep it on one line */
-    z-index: 1002; /* On top of the taskbar */
+    white-space: nowrap;
+    /* Keep it on one line */
+    z-index: 1002;
+    /* On top of the taskbar */
 }
 
 /* This shows the tooltip on hover */
@@ -959,12 +1077,14 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 400px; /* Or whatever size fits your GIF */
+    width: 400px;
+    /* Or whatever size fits your GIF */
     background: #c0c0c0;
     border: 2px solid;
     border-color: #dfdfdf #808080 #808080 #dfdfdf;
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
-    z-index: 100; /* On top of everything */
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    /* On top of everything */
     display: flex;
     flex-direction: column;
 }
@@ -982,12 +1102,34 @@ body {
 }
 
 .gif-popup-content {
-    padding: 2px; /* Gives a nice inner border */
-    background: #fff; /* White background */
+    padding: 2px;
+    /* Gives a nice inner border */
+    background: #fff;
+    /* White background */
 }
 
 .gif-popup-content img {
-    width: 100%; /* Make the GIF fill the container */
+    width: 100%;
+    /* Make the GIF fill the container */
     height: auto;
-    display: block; /* Removes any bottom spacing */
+    display: block;
+    /* Removes any bottom spacing */
+}
+
+@keyframes noise-cycle {
+    /* 0% {
+        background-image: url('../static/images/noise.png');
+    } */
+
+    0% {
+        background-image: url('../static/images/noise2.png');
+    }
+
+    33% {
+        background-image: url('../static/images/noise3.png');
+    }
+
+    66% {
+        background-image: url('../static/images/noise4.png');
+    }
 }
