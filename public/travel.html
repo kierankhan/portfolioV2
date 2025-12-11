@@ -176,6 +176,8 @@
         const viewport = document.getElementById('viewport');
         const container = document.getElementById('map-container');
         const mapImg = document.getElementById('world-map');
+        const tooltip = document.getElementById('global-tooltip');
+        let activePin = null;
 
         let state = {
             scale: 1,
@@ -207,6 +209,7 @@
             { city: "Seoul", country: "South Korea", year: "2025", top: "47%", left: "77%" },
             { city: "Sydney", country: "Australia", year: "2016, 2023", top: "89%", left: "85%" },
             { city: "Madrid", country: "Spain", year: "2025", top: "45.5%", left: "43.5%" },
+            { city: "Lisbon", country: "Portugal", year: "2022", top: "45.5%", left: "42.5%" },
             { city: "Dhaka", country: "Bangladesh", year: "2010", top: "53%", left: "66%" },
             { city: "Istanbul", country: "Turkey", year: "2010", top: "46%", left: "51%" },
             { city: "Vienna", country: "Austria", year: "2024", top: "42%", left: "47.5%" },
@@ -218,8 +221,6 @@
         ];
 
         // --- Tooltip Logic ---
-        const tooltip = document.getElementById('global-tooltip');
-        let activePin = null;
 
         function updateTooltip() {
             if (!activePin) return;

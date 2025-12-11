@@ -12,7 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const aboutMeBtn = document.getElementById('aboutMeBtn');
     const contactBtn = document.getElementById('contactBtn');
     const formBtn = document.getElementById('formBtn');
+    const suggestionsBox = document.getElementById('suggestions');
     const bookmarksBar = document.getElementById('bookmarksBar');
+    const travelIcon = document.getElementById('travelIcon');
     const homeContent = document.getElementById('homeContent');
     const companyOverview = document.getElementById('companyOverview');
     let restingXPosition = 0;
@@ -203,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 tryMeArrow.remove();
             }, 1000); // Match CSS transition duration
-        }, 5000); // Show for 5 seconds
+        }, 9000); // Show for 5 seconds
     }
 
     // --- 6. The Animation Loop (Makes the CD Spin & Tilt) ---
@@ -346,10 +348,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 createWindow({ title: 'My Projects', icon: '💡', contentUrl: '/projects.html' });
                 break;
             case 'inception':
-                createWindow({ title: 'Inception', icon: '', contentUrl: '/inception.html' });
+                createWindow({ title: 'Inception', icon: '👁️', contentUrl: '/inception.html' });
                 break;
             case 'travel':
-                createWindow({ title: 'My Travels', icon: '💡', contentUrl: '/travel.html', width: '1200px', height: '600px' });
+                createWindow({ title: 'My Travels', icon: '✈️', contentUrl: '/travel.html', width: '1200px', height: '600px' });
                 break;
             case 'github':
                 window.open('https://github.com/kierankhan', '_blank');
@@ -406,8 +408,15 @@ document.addEventListener('DOMContentLoaded', () => {
         newWindow.style.zIndex = maxZIndex;
 
         // Apply custom dimensions if provided
-        if (options.width) newWindow.style.width = options.width;
-        if (options.height) newWindow.style.height = options.height;
+        // Apply custom dimensions if provided
+        if (options.width) {
+            newWindow.style.width = options.width;
+            newWindow.style.maxWidth = '100vw'; // Safeguard for mobile
+        }
+        if (options.height) {
+            newWindow.style.height = options.height;
+            newWindow.style.maxHeight = '100vh'; // Safeguard for mobile
+        }
 
         if (window.innerWidth > 768) {
             const offsetX = Math.floor(Math.random() * 100) - 50;
@@ -566,6 +575,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         zoomWrapper.appendChild(newFormWindow);
+    });
+
+    travelIcon.addEventListener('click', () => {
+        createWindow({
+            title: 'My Travels',
+            icon: '✈️',
+            contentUrl: '/travel.html',
+            width: '1200px',
+            height: '600px'
+        });
     });
 
     bookmarksBar.addEventListener('click', (e) => {
