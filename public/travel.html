@@ -57,12 +57,13 @@
 
         .pin {
             position: absolute;
-            width: 24px;
-            height: 24px;
-            /* Default scale variable if JS hasn't set it yet */
-            --map-scale: 1;
+            width: 28px;
+            height: 28px;
+            /* Anchor scaling to the bottom center (the tip of the pin) */
+            transform-origin: 50% 100%;
             /* Invert the map's scale so the pin visually stays the same size */
-            transform: translate(-50%, -100%) scale(calc(1 / var(--map-scale)));
+            /* Use fallback of 1 if variable isn't set */
+            transform: translate(-50%, -100%) scale(calc(1 / var(--map-scale, 1)));
 
             /* Bottom tip is at the coord */
             cursor: pointer;
@@ -74,7 +75,7 @@
 
         .pin:hover {
             /* On hover, we want it 1.3x larger than the "fixed" size */
-            transform: translate(-50%, -100%) scale(calc(1.3 / var(--map-scale)));
+            transform: translate(-50%, -100%) scale(calc(1.3 / var(--map-scale, 1)));
             z-index: 20;
         }
 
@@ -208,8 +209,12 @@
             { city: "Madrid", country: "Spain", year: "2025", top: "45.5%", left: "43.5%" },
             { city: "Dhaka", country: "Bangladesh", year: "2010", top: "53%", left: "66%" },
             { city: "Istanbul", country: "Turkey", year: "2010", top: "46%", left: "51%" },
-            { city: "Vienna", country: "Austria", year: "2024", top: "46%", left: "51%" },
+            { city: "Vienna", country: "Austria", year: "2024", top: "42%", left: "47.5%" },
             { city: "Paris", country: "France", year: "2018", top: "43%", left: "44.5%" },
+            { city: "Munich", country: "Germany", year: "2024", top: "41%", left: "46%" },
+            { city: "Taipei", country: "Taiwan", year: "2025", top: "54%", left: "75%" },
+            { city: "Hong Kong SAR", country: "China", year: "2025", top: "54.5%", left: "73%" },
+            { city: "Budapest", country: "Hungary", year: "2024", top: "43%", left: "48%" },
         ];
 
         // --- Tooltip Logic ---
