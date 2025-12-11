@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - Software Engineer</title>
-  <script type="module" crossorigin src="/portfolioV2/assets/index-Ch1TU8pp.js"></script>
-  <link rel="stylesheet" crossorigin href="/portfolioV2/assets/index-CI10FcGh.css">
+    <title>Kieran Khan Portfolio</title>
+    <!-- <link rel="stylesheet" href="https://unpkg.com/98.css" /> -->
+    <link rel="icon" type="image/png" href="/internet_connection_wiz-2.png">
+  <script type="module" crossorigin src="/assets/index-BmW_yb87.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-6xf0Cxwi.css">
 </head>
+
 <body>
     <div class="zoom-wrapper" id="zoomWrapper">
 
@@ -28,37 +32,36 @@
                 <div class="address-bar">
                     <span class="address-label">Address:</span>
                     <div class="address-wrapper">
-                        <input 
-                            type="text" 
-                            class="address-input" 
-                            id="addressBar"
-                            placeholder="Type: resume, projects, github, linkedin..."
-                        >
+                        <input type="text" class="address-input" id="addressBar"
+                            placeholder="Type: projects, resume, github, linkedin...">
                         <div class="suggestions" id="suggestions"></div>
                     </div>
+                    <img src="/magnifying_glass-0.png" style="width: 20px; height: 20px;" id="searchIcon"
+                        class="search-icon"></img>
+                    <div class="try-me-arrow" id="tryMeArrow">⬅ Try me!</div>
                 </div>
                 <div class="bookmarks-bar" id="bookmarksBar">
                     <button class="bookmark-btn selected" data-target="home">
-                        <span>🏠</span>
-                        <span style="padding-left: 5px; font-weight: bolder;">Home</span>
+                        <img src="/internet_connection_wiz-2.png"></img>
+                        <!-- <span style="padding-left: 5px; font-weight: bolder;">Home</span> -->
                     </button>
                     <button class="bookmark-btn" data-target="microsoft">
-                        <img src="/portfolioV2/assets/msft_old_logo-CcgZmVKv.png" alt="Microsoft">
-                        <img src="/portfolioV2/assets/msft_old_logo2-Paw31CaH.png" alt="Microsoft">
+                        <img src="/assets/msft_old_logo-CcgZmVKv.png" alt="Microsoft">
+                        <img src="/assets/msft_old_logo2-Paw31CaH.png" alt="Microsoft">
                     </button>
                     <button class="bookmark-btn" data-target="aerospace">
-                        <img src="/portfolioV2/assets/The_Aerospace_Corporation_logo-D8Ds8Rq0.png" alt="Aerospace">
+                        <img src="/assets/The_Aerospace_Corporation_logo-D8Ds8Rq0.png" alt="Aerospace">
                     </button>
                     <button class="bookmark-btn" data-target="usnews">
-                        <img src="/portfolioV2/assets/U.S._News___World_Report_logo-K6bOH1TY.png" alt="U.S. News">
+                        <img src="/assets/U.S._News___World_Report_logo-K6bOH1TY.png" alt="U.S. News">
                     </button>
                     <button class="bookmark-btn" data-target="mitre">
-                        <img src="/portfolioV2/assets/Mitre_Corporation_logo-0n5z-11R.png" style="" alt="MITRE">
+                        <img src="/assets/Mitre_Corporation_logo-0n5z-11R.png" style="height: 16px" alt="MITRE">
                     </button>
                 </div>
                 <div class="content-area">
                     <div class="profile-container">
-                        
+
                     </div>
                     <div class="name-title" id="homeContent">
                         <h1>Kieran Khan</h1>
@@ -94,7 +97,7 @@
                 </div>
             </div>
             <div class="content-area window-content">
-                </div>
+            </div>
         </div>
     </template>
 
@@ -109,17 +112,21 @@
     </div>
     <div class="taskbar" id="taskbar">
         <button class="taskbar-btn" id="aboutMeBtn">
-            <span>ℹ️</span>
+            <img class="taskbar-btn-icons" src="/msg_information-0.png"></img>
             <span>About Me</span>
         </button>
         <button class="taskbar-btn" id="contactBtn">
-            <span>✉️</span>
+            <img class="taskbar-btn-icons" src="/write_card_phone.png"></img>
             <span>Contact Card</span>
         </button>
         <button class="taskbar-btn" id="formBtn">
-            <span>📨</span>
+            <img class="taskbar-btn-icons" src="/outlook_express-4.png"></img>
             <span>Message Me</span>
         </button>
+        <div class="system-tray-icon" id="songIcon">
+            <img class="playing-icons" src="/static/images/Icones_pixel.png"></img>
+            <span class="tooltip">Current favorite song: Tin Man - America</span>
+        </div>
     </div>
 
     <template id="alert-template">
@@ -131,7 +138,10 @@
             <div class="alert-content">
                 <div class="alert-icon">i</div>
                 <p class="alert-text">
-                    Hey! I'm Kieran, a software engineer with a versatile set of skills across the stack. I have a particular interest in big data and its many applications!
+                    Hey! I'm Kieran, a software engineer with a versatile set of skills across the stack. I have a
+                    particular interest in big data and its many applications!
+                    Some of my hobbies include collecting vinyl records, playing violin, and cycling. Please don't
+                    hesitate to reach out!!
                 </p>
             </div>
             <div class="alert-controls">
@@ -149,7 +159,8 @@
                 <p>Get in touch:</p>
                 <ul>
                     <li><strong>Email:</strong> <a href="mailto:kierank.pc@gmail.com">kierank.pc@gmail.com</a></li>
-                    <li><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/kierankhan" target="_blank">linkedin.com/in/kierankhan</a></li>
+                    <li><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/kierankhan"
+                            target="_blank">linkedin.com/in/kierankhan</a></li>
                 </ul>
             </div>
             <div class="alert-controls">
@@ -163,7 +174,7 @@
                 <span>Send a Message</span>
                 <button class="window-btn alert-close-btn">×</button>
             </div>
-            
+
             <form class="contact-form" id="contact-form" action="https://formspree.io/f/xrbowrgp" method="POST">
                 <div class="form-group">
                     <label for="name">Name:</label>
@@ -183,5 +194,17 @@
             </form>
         </div>
     </template>
+    <template id="gif-template">
+        <div class="gif-popup">
+            <div class="gif-popup-title-bar">
+                <span>Special Surprise!</span>
+                <button class="window-btn alert-close-btn">×</button>
+            </div>
+            <div class="gif-popup-content">
+                <img src="/static/images/bangladesh-jumpscare.gif" alt="Easter Egg GIF">
+            </div>
+        </div>
+    </template>
 </body>
+
 </html>

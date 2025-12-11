@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Map</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            /* Dark background for map */
+            overflow: hidden;
+            /* Prevent native scroll, we handle pan/zoom */
+            font-family: 'Courier New', monospace;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+        }
+
+        #viewport {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            cursor: grab;
+        }
+
+        #viewport:active {
+            cursor: grabbing;
+        }
+
+        #map-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-origin: 0 0;
+            /* Will be updated by JS: transform: translate(x, y) scale(z) */
+            /* Removed will-change to prevent potential blurriness */
+        }
+
+        #world-map {
+            display: block;
+            pointer-events: none;
+            /* Let drag events bubble to viewport */
+            max-width: none;
+            /* Allow it to be full size */
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -webkit-crisp-edges;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        .pin {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            /* Default scale variable if JS hasn't set it yet */
+            --map-scale: 1;
+            /* Invert the map's scale so the pin visually stays the same size */
+            transform: translate(-50%, -100%) scale(calc(1 / var(--map-scale)));
+
+            /* Bottom tip is at the coord */
+            cursor: pointer;
+            z-index: 10;
+            pointer-events: auto;
+            /* Enable hover/click on pins */
+            transition: transform 0.2s;
+        }
+
+        .pin:hover {
+            /* On hover, we want it 1.3x larger than the "fixed" size */
+            transform: translate(-50%, -100%) scale(calc(1.3 / var(--map-scale)));
+            z-index: 20;
+        }
+
+        .pin img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            image-rendering: pixelated;
+        }
+
+        /* Tooltip styling */
+        /* .tooltip {
+            position: absolute;
+            bottom: 110%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ffffe1;
+            border: 1px solid #000;
+            color: #000;
+            padding: 4px 8px;
+            font-size: 12px;
+            white-space: nowrap;
+            box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+            display: none;
+            pointer-events: none;
+            text-align: center;
+        } */
+        .tooltip {
+            display: none;
+            position: fixed;
+            /* Fixed relative to the viewport (iframe) */
+            background: #ffffe1;
+            border: 1px solid #000;
+            padding: 3px 6px;
+            font-size: 11px;
+            /* Slightly larger for readability, but won't scale */
+            font-family: 'Courier New', monospace;
+            color: #000;
+            white-space: nowrap;
+            z-index: 1002;
+            pointer-events: none;
+            box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        /* Controls overlay */
+        .controls {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(192, 192, 192, 0.8);
+            border: 2px outset #fff;
+            padding: 5px;
+            display: flex;
+            gap: 5px;
+            z-index: 100;
+        }
+
+        .control-btn {
+            width: 25px;
+            height: 25px;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            border: 1px outset #fff;
+            background: #c0c0c0;
+            color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+        }
+
+        .control-btn:active {
+            border: 1px inset #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="viewport">
+        <div id="map-container">
+            <img id="world-map" src="world map.png" alt="World Map">
+            <!-- Pins will be added here -->
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="control-btn" id="zoom-in" title="Zoom In">+</button>
+        <button class="control-btn" id="zoom-out" title="Zoom Out">-</button>
+        <button class="control-btn" id="reset" title="Reset View">R</button>
+    </div>
+
+    <!-- Global Tooltip Element -->
+    <div id="global-tooltip" class="tooltip"></div>
+
+    <script>
+        const viewport = document.getElementById('viewport');
+        const container = document.getElementById('map-container');
+        const mapImg = document.getElementById('world-map');
+
+        let state = {
+            scale: 1,
+            panning: false,
+            pointX: 0,
+            pointY: 0,
+            startX: 0,
+            startY: 0
+        };
+
+        // Load image to center it initially
+        mapImg.onload = () => {
+            resetMap();
+        };
+
+        // If image is already cached/loaded
+        if (mapImg.complete) {
+            resetMap();
+        }
+
+        // --- Pins Data ---
+        // Coordinates (percentage top, left) relative to the map image dimensions
+        const pins = [
+            { city: "Washington D.C.", country: "USA", year: "2004-", top: "54%", left: "23%" },
+            { city: "Toronto", country: "Canada", year: "2024", top: "50%", left: "24%" },
+            { city: "Dublin", country: "Ireland", year: "2018", top: "37%", left: "42.5%" },
+            { city: "London", country: "UK", year: "2018", top: "38%", left: "44%" },
+            { city: "Tokyo", country: "Japan", year: "2023", top: "49%", left: "80%" },
+            { city: "Seoul", country: "South Korea", year: "2025", top: "47%", left: "77%" },
+            { city: "Sydney", country: "Australia", year: "2016, 2023", top: "89%", left: "85%" },
+            { city: "Madrid", country: "Spain", year: "2025", top: "45.5%", left: "43.5%" },
+            { city: "Dhaka", country: "Bangladesh", year: "2010", top: "53%", left: "66%" },
+            { city: "Istanbul", country: "Turkey", year: "2010", top: "46%", left: "51%" },
+            { city: "Vienna", country: "Austria", year: "2024", top: "46%", left: "51%" },
+            { city: "Paris", country: "France", year: "2018", top: "43%", left: "44.5%" },
+        ];
+
+        // --- Tooltip Logic ---
+        const tooltip = document.getElementById('global-tooltip');
+        let activePin = null;
+
+        function updateTooltip() {
+            if (!activePin) return;
+            const rect = activePin.getBoundingClientRect();
+            // Position above the pin
+            // rect.top is relative to the viewport
+            // We want the bottom of the tooltip to be at rect.top
+
+            tooltip.style.display = 'block';
+            // We need to measure tooltip dimensions to center it
+            const ttRect = tooltip.getBoundingClientRect();
+
+            let top = rect.top - ttRect.height - 5; // 5px padding
+            let left = rect.left + (rect.width / 2) - (ttRect.width / 2);
+
+            // Keep in bounds (optional but good)
+            if (top < 0) top = rect.bottom + 5;
+            if (left < 0) left = 0;
+            if (left + ttRect.width > window.innerWidth) left = window.innerWidth - ttRect.width;
+
+            tooltip.style.top = `${top}px`;
+            tooltip.style.left = `${left}px`;
+        }
+
+        // Add listeners to pins
+        // We need to do this AFTER creating them.
+
+        // --- Pins Creation ---
+        pins.forEach(loc => {
+            const el = document.createElement('div');
+            el.className = 'pin';
+            el.style.top = loc.top;
+            el.style.left = loc.left;
+
+            // Store data for tooltip
+            el.dataset.city = loc.city;
+            el.dataset.country = loc.country;
+            el.dataset.year = loc.year;
+
+            el.innerHTML = `<img src="pixel_pin2.png" alt="Pin">`;
+
+            el.addEventListener('mouseenter', () => {
+                activePin = el;
+                tooltip.innerHTML = `
+                    <strong>${loc.city}</strong><br>
+                    ${loc.country}<br>
+                    ${loc.year}
+                `;
+                // Must display block first to calculate dimensions in updateTooltip
+                tooltip.style.display = 'block';
+                updateTooltip();
+            });
+
+            el.addEventListener('mouseleave', () => {
+                activePin = null;
+                tooltip.style.display = 'none';
+            });
+
+            container.appendChild(el);
+        });
+
+        // Loop updateTooltip in transform to sync position
+        function setTransform() {
+            // Rounding coordinates helps prevent sub-pixel blurring
+            const x = Math.round(state.pointX);
+            const y = Math.round(state.pointY);
+
+            container.style.transform = `translate(${x}px, ${y}px) scale(${state.scale})`;
+
+            // Set CSS variable for inverse scaling of children (pins)
+            container.style.setProperty('--map-scale', state.scale);
+
+            updateTooltip();
+        }
+
+        function resetMap() {
+            const vw = viewport.offsetWidth;
+            const vh = viewport.offsetHeight;
+            const iw = mapImg.naturalWidth || 800;
+            const ih = mapImg.naturalHeight || 400;
+
+            // Fit to screen with some padding
+            const scaleW = (vw * 0.9) / iw;
+            const scaleH = (vh * 0.9) / ih;
+            const fitScale = Math.min(scaleW, scaleH);
+
+            // User requested to "start zoomed in more"
+            // So we multiply the fitScale by a factor, e.g., 2.5
+            state.scale = fitScale * 1.3;
+
+            if (state.scale === 0) state.scale = 0.5; // Safety
+
+            // Center it
+            state.pointX = (vw - iw * state.scale) / 2;
+            state.pointY = (vh - ih * state.scale) / 2;
+
+            setTransform();
+        }
+
+        // --- Panning ---
+        viewport.addEventListener('mousedown', function (e) {
+            if (e.button !== 0) return; // Only left click
+            e.preventDefault();
+            state.panning = true;
+            state.startX = e.clientX - state.pointX;
+            state.startY = e.clientY - state.pointY;
+        });
+
+        window.addEventListener('mouseup', function (e) {
+            state.panning = false;
+        });
+
+        window.addEventListener('mousemove', function (e) {
+            if (!state.panning) return;
+            e.preventDefault();
+            state.pointX = e.clientX - state.startX;
+            state.pointY = e.clientY - state.startY;
+            setTransform();
+        });
+
+        // --- Zoom ---
+        viewport.addEventListener('wheel', function (e) {
+            e.preventDefault();
+            const xs = (e.clientX - state.pointX) / state.scale;
+            const ys = (e.clientY - state.pointY) / state.scale;
+
+            const delta = -e.deltaY;
+            const factor = delta > 0 ? 1.1 : 0.9;
+
+            let newScale = state.scale * factor;
+            // Limits
+            if (newScale < 0.1) newScale = 0.1;
+            if (newScale > 10) newScale = 10;
+
+            state.pointX = e.clientX - xs * newScale;
+            state.pointY = e.clientY - ys * newScale;
+            state.scale = newScale;
+
+            setTransform();
+        }, { passive: false });
+
+        // --- Buttons ---
+        document.getElementById('zoom-in').onclick = () => {
+            const cx = viewport.offsetWidth / 2;
+            const cy = viewport.offsetHeight / 2;
+            const xs = (cx - state.pointX) / state.scale;
+            const ys = (cy - state.pointY) / state.scale;
+
+            let newScale = state.scale * 1.2;
+            if (newScale > 10) newScale = 10;
+
+            state.pointX = cx - xs * newScale;
+            state.pointY = cy - ys * newScale;
+            state.scale = newScale;
+            setTransform();
+        };
+
+        document.getElementById('zoom-out').onclick = () => {
+            const cx = viewport.offsetWidth / 2;
+            const cy = viewport.offsetHeight / 2;
+            const xs = (cx - state.pointX) / state.scale;
+            const ys = (cy - state.pointY) / state.scale;
+
+            let newScale = state.scale / 1.2;
+            if (newScale < 0.1) newScale = 0.1;
+
+            state.pointX = cx - xs * newScale;
+            state.pointY = cy - ys * newScale;
+            state.scale = newScale;
+            setTransform();
+        };
+
+        document.getElementById('reset').onclick = resetMap;
+
+    </script>
+</body>
+
+</html>

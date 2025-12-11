@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Layer 1: The Face ---
     // ❗️ FIX: Paths in /public must start with a /
-    const faceTexture = textureLoader.load('./kieran.jpg', (texture) => {
+    const faceTexture = textureLoader.load('/kieran.jpg', (texture) => {
     });
 
     const faceMaterial = new THREE.MeshPhysicalMaterial({
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Layer 2: The Translucent CD Overlay ---
     // ❗️ FIX: Paths in /public must start with a /
-    const cdOverlayTexture = textureLoader.load('./cd.png', (texture) => {
+    const cdOverlayTexture = textureLoader.load('/cd.png', (texture) => {
         texture.repeat.set(.75, .75);
         texture.offset.set(0.126, 0.126);
     });
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
         "microsoft": `
             <div style="display: flex; flex-direction: row; justify-content: left; gap: 10px;">
                 <h2>Microsoft</h2>
-                <img src="./azure.png" style="height: 30px; image-rendering: pixelated; margin-bottom: 15px;"></img>
+                <img src="/azure.png" style="height: 30px; image-rendering: pixelated; margin-bottom: 15px;"></img>
             </div>
             <ul>
                 <li>Worked within Azure health and monitoring, one of Microsoft's largest scale services.</li>
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <ul>
                 <li>Built a data-exploration application targetted towards non-technical staff to view, compare, visualize, and validate School ranking data.</li>
                 <li>Demo'd at U.S. News headquarters to company leadership, including the CTO and lead engineers!</li>
-                <img src="./surprise_emoji.jpg" style="height: 30px; image-rendering: pixelated;"></img>
+                <img src="/surprise_emoji.jpg" style="height: 30px; image-rendering: pixelated;"></img>
             </ul>
         `,
         "mitre": `
@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // ❗️ FIX: Removed the buggy setTimeout
-        // setTimeout(startIntroAnimation, 2500); 
+        // setTimeout(startIntroAnimation, 2500);
     });
 
     // --- Address Bar Logic (no changes) ---
@@ -340,10 +340,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const lowerQuery = query.toLowerCase().trim();
         switch (lowerQuery) {
             case 'resume':
-                createWindow({ title: 'My Resume', icon: '📄', contentUrl: './resume.html' });
+                createWindow({ title: 'My Resume', icon: '📄', contentUrl: '/resume.html' });
                 break;
             case 'projects':
-                createWindow({ title: 'My Projects', icon: '💡', contentUrl: './projects.html' });
+                createWindow({ title: 'My Projects', icon: '💡', contentUrl: '/projects.html' });
+                break;
+            case 'inception':
+                createWindow({ title: 'Inception', icon: '', contentUrl: '/inception.html' });
+                break;
+            case 'travel':
+                createWindow({ title: 'My Travels', icon: '💡', contentUrl: '/travel.html', width: '1200px', height: '600px' });
                 break;
             case 'github':
                 window.open('https://github.com/kierankhan', '_blank');
@@ -398,6 +404,11 @@ document.addEventListener('DOMContentLoaded', () => {
         contentArea.appendChild(iframe);
         maxZIndex++;
         newWindow.style.zIndex = maxZIndex;
+
+        // Apply custom dimensions if provided
+        if (options.width) newWindow.style.width = options.width;
+        if (options.height) newWindow.style.height = options.height;
+
         if (window.innerWidth > 768) {
             const offsetX = Math.floor(Math.random() * 100) - 50;
             const offsetY = Math.floor(Math.random() * 100) - 50;

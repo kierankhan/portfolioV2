@@ -329,17 +329,6 @@ body {
     position: relative;
 }
 
-.search-icon {
-    cursor: pointer;
-    transition: filter 0.2s ease;
-    margin-left: 5px;
-    /* Add a little space */
-}
-
-.search-icon:hover {
-    filter: brightness(1.2) drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
-}
-
 .try-me-arrow {
     /* Removed absolute positioning */
     font-weight: bold;
@@ -380,7 +369,8 @@ body {
     /* Make it smaller than the main window */
     width: 70%;
     height: 60%;
-    max-width: 800px;
+    width: 800px;
+    max-width: 1200px;
 
     /* Ensure it's on top */
     z-index: 12;
