@@ -549,6 +549,14 @@ body {
     .try-me-arrow {
         opacity: 0;
     }
+
+    .new-badge {
+        display: none;
+    }
+
+    .system-tray-icon {
+        display: none !important;
+    }
 }
 
 /*
