@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const suggestionsBox = document.getElementById('suggestions');
     const bookmarksBar = document.getElementById('bookmarksBar');
     const travelIcon = document.getElementById('travelIcon');
+    const mysteryIcon = document.getElementById('mysteryIcon');
     const homeContent = document.getElementById('homeContent');
     const companyOverview = document.getElementById('companyOverview');
     let restingXPosition = 0;
@@ -407,10 +408,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 2. Add it to the main wrapper
                 zoomWrapper.appendChild(flash);
 
-                // 3. Remove it after the animation is done (1.5s)
+                // 3. Force reflow so the transition works
+                // Accessing offsetHeight triggers layout calculation
+                flash.offsetHeight;
+
+                // 4. Fade in (white screen)
+                flash.style.opacity = '1';
+
+                // 5. Play sound
+                const flashSound = new Audio('/csgo-flashbang.mp3'); // or .wav
+                flashSound.volume = 0.5;
+                flashSound.play().catch(e => console.log('Audio error:', e));
+
+                // 6. Fade out after a delay
                 setTimeout(() => {
-                    flash.remove();
-                }, 3000);
+                    flash.style.opacity = '0';
+                    // Remove from DOM after fade out is done
+                    setTimeout(() => {
+                        flash.remove();
+                    }, 5000); // 3s fade out + buffer
+                }, 100); // short delay before fading out starts (or immediate)
                 break;
             case 'bangladesh jumpscare':
                 const gifTemplate = document.getElementById('gif-template');
@@ -430,10 +447,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 break;
             default:
-                alert('Command not found: ' + query + '\nTry: resume, projects, github, or linkedin');
+                showSimpleAlert('Address not found.\nTry: resume, projects, github, or linkedin');
         }
+        addressBar.value = '';
     }
 
+    function showSimpleAlert(message) {
+        const template = document.getElementById('simple-alert-template');
+        const clone = template.content.cloneNode(true).firstElementChild;
+
+        const textEl = clone.querySelector('.alert-text');
+        textEl.innerText = message; // Use innerText to preserve newlines
+
+        const closeBtn = clone.querySelector('.alert-close-btn');
+        const okBtn = clone.querySelector('.alert-ok-btn');
+
+        const close = () => clone.remove();
+
+        closeBtn.onclick = close;
+        okBtn.onclick = close;
+
+        zoomWrapper.appendChild(clone);
+    }
     function createWindow(options) {
         const newWindow = windowTemplate.content.cloneNode(true).firstElementChild;
         newWindow.querySelector('.window-title').textContent = options.title;
@@ -622,6 +657,24 @@ document.addEventListener('DOMContentLoaded', () => {
             contentUrl: '/travel.html',
             width: '1200px',
             height: '600px'
+        });
+    });
+
+    const songIcon = document.getElementById('songIcon');
+    songIcon.addEventListener('click', () => {
+        const url = songIcon.getAttribute('href');
+        if (url) {
+            window.open(url, '_blank');
+        }
+    });
+
+    mysteryIcon.addEventListener('click', () => {
+        createWindow({
+            title: 'Huh?',
+            icon: '❓',
+            contentUrl: '/mystery.html',
+            width: '400px',
+            height: '400px'
         });
     });
 

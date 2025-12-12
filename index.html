@@ -128,20 +128,27 @@
             <img class="playing-icons" src="/entire_network_globe-0.png"></img>
             <span class="tooltip">View my travels!</span>
         </div>
-        <div class="system-tray-icon" id="songIcon">
-            <img class="playing-icons" src="/static/images/Icones_pixel.png"></img>
+        <div class="system-tray-icon" id="songIcon"
+            href="https://open.spotify.com/user/31svufabixd4pl3wssdsobfvzg4m?si=0f8cb8828287426c">
+            <img class="playing-icons" src="/cd_audio_cd_a-4.png"></img>
             <span class="tooltip">Current favorite song: Tin Man - America</span>
+        </div>
+        <div class="system-tray-icon" id="mysteryIcon">
+            <img class="playing-icons" src="/help_book_cool-4.png"></img>
+            <span class="tooltip">What's this?</span>
         </div>
     </div>
 
     <template id="alert-template">
         <div class="alert-window">
             <div class="alert-title-bar">
-                <span>Alert</span>
+                <!-- <img src="/msg_information-0.png" style="width: 20px; height: 20px;"></img> -->
+                <span style="">Alert</span>
                 <button class="window-btn alert-close-btn">×</button>
             </div>
             <div class="alert-content">
-                <div class="alert-icon">i</div>
+                <!-- <div class="alert-icon">i</div> -->
+                <img src="/msg_information-0.png" style="width: 40px; height: 40px;"></img>
                 <p class="alert-text">
                     Hey! I'm Kieran, a software engineer with a versatile set of skills across the stack. I have a
                     particular interest in big data and its many applications!
@@ -154,10 +161,11 @@
             </div>
         </div>
     </template>
+
     <template id="contact-template">
         <div class="contact-window">
             <div class="alert-title-bar">
-                <span>Contact Properties</span>
+                <span style="margin-right: auto;">Contact Properties</span>
                 <button class="window-btn alert-close-btn">×</button>
             </div>
             <div class="contact-content">
@@ -176,7 +184,7 @@
     <template id="form-template">
         <div class="contact-window">
             <div class="alert-title-bar">
-                <span>Send a Message</span>
+                <span style="margin-right: auto;">Send a Message</span>
                 <button class="window-btn alert-close-btn">×</button>
             </div>
 
@@ -207,6 +215,21 @@
             </div>
             <div class="gif-popup-content">
                 <img src="/static/images/bangladesh-jumpscare.gif" alt="Easter Egg GIF">
+            </div>
+        </div>
+    </template>
+    <template id="simple-alert-template">
+        <div class="alert-window" style="width: 300px;">
+            <div class="alert-title-bar">
+                <span>Alert</span>
+                <button class="window-btn alert-close-btn">×</button>
+            </div>
+            <div class="alert-content">
+                <img src="/msg_error-0.png" style="width: 40px; height: 40px;"></img>
+                <p class="alert-text"></p>
+            </div>
+            <div class="alert-controls">
+                <button class="alert-ok-btn">OK</button>
             </div>
         </div>
     </template>
