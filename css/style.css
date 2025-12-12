@@ -500,9 +500,13 @@ body {
         box-shadow: none;
     }
 
+    .address-wrapper {
+        width: 92%;
+    }
+
     .address-input {
         flex: 1;
-        width: 300px;
+        width: 100%;
         padding: 3px 5px;
         border: 2px solid;
         border-color: #808080 #dfdfdf #dfdfdf #808080;
@@ -544,6 +548,20 @@ body {
 
     .playing-icons {
         display: none;
+    }
+
+    .bookmarks-bar {
+        flex-wrap: nowrap;
+        overflow: hidden;
+        /* Ensure we can detect overflow */
+    }
+
+    /* .bookmarks-bar .bookmark-btn:last-child {
+        display: none;
+    } */
+
+    .hide-btn {
+        display: none !important;
     }
 
     .try-me-arrow {
@@ -643,6 +661,8 @@ body {
     /* 👈 Add this */
     -webkit-appearance: none;
     height: 28px;
+    flex-shrink: 0;
+    /* 👈 Prevent shrinking so we can detect overflow */
 }
 
 .bookmark-btn:active {

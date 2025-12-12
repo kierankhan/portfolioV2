@@ -151,10 +151,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Call it once to set the initial size AND resting positions
     handleResize();
+    updateBookmarksVisibility(); // 👈 Initial check
 
     // Add the event listener to call it on every resize
-    window.addEventListener('resize', handleResize);
-    // --- ❗️ END MOVED SECTION ---
+    window.addEventListener('resize', () => {
+        handleResize();
+        updateBookmarksVisibility();
+    });
+
+    function updateBookmarksVisibility() {
+        const buttons = Array.from(bookmarksBar.children);
+        const containerWidth = bookmarksBar.clientWidth;
+
+        // Get strict padding values to know accurate available space
+        const style = window.getComputedStyle(bookmarksBar);
+        const paddingLeft = parseFloat(style.paddingLeft);
+        const paddingRight = parseFloat(style.paddingRight);
+        const gap = parseFloat(style.gap) || 4; // Default to 4 if not set
+
+        let currentWidth = paddingLeft + paddingRight;
+
+        // 1. Reset all to be visible temporarily to get their natural width
+        // OR: Better, assume their width doesn't change and just measure them if visible, 
+        // or hardcode/cache? "Show all" is safest for correct measurements.
+        buttons.forEach(btn => btn.classList.remove('hide-btn'));
+
+        // 2. Iterate and hide if we exceed budget
+        buttons.forEach((btn, index) => {
+            // We use offsetWidth which includes border + padding
+            // But if it was hidden, offsetWidth is 0. 
+            // Since we just showed them, it should be fine.
+            const btnWidth = btn.offsetWidth;
+
+            // Add gap if it's not the first item
+            if (index > 0) currentWidth += gap;
+
+            currentWidth += btnWidth;
+
+            if (currentWidth > containerWidth) {
+                btn.classList.add('hide-btn');
+            }
+        });
+    }
 
     // --- 8. Handle Mouse Movement for Tilt ---
     document.addEventListener('mousemove', (event) => {
