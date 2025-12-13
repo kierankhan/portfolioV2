@@ -216,6 +216,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 5. Handle Page Load Animation ---
     function startIntroAnimation() {
+        const loadingScreen = document.getElementById('loading-screen');
+        const zoomWrapper = document.getElementById('zoomWrapper');
+
+        // 1. Reveal Main Content
+        if (zoomWrapper) {
+            zoomWrapper.style.transition = 'opacity 1s ease-in';
+            zoomWrapper.style.opacity = '1';
+        }
+
+        // 2. Hide Loading Screen
+        if (loadingScreen) {
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => {
+                loadingScreen.remove();
+            }, 2000);
+        }
+
+        // 3. Start specific animations
         canvas.style.zIndex = 2; // Set CD to resting z-index
         train.classList.add('driving');
         taskbar.classList.add('show');
@@ -236,7 +254,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    setTimeout(startIntroAnimation, 100);
+
+    // Wait for everything (images/styles) to load
+    window.onload = () => {
+        // Double check layout
+        handleResize();
+        updateBookmarksVisibility();
+
+        // Short buffer to ensure layout paints (minimum 500ms feel)
+        setTimeout(startIntroAnimation, 500);
+    };
 
     // --- Try Me Arrow Logic ---
     const tryMeArrow = document.getElementById('tryMeArrow');

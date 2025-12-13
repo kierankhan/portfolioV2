@@ -14,6 +14,79 @@ body {
     height: 100vh;
 }
 
+/* Optimize: Pause noise on mobile to improve performance */
+@media (max-width: 768px) {
+    body {
+        animation: none;
+        /* Disable animation on mobile */
+    }
+}
+
+/* Loading Screen */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #008080;
+    /* Windows Teal */
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'W95FA', 'Courier New', monospace;
+    color: white;
+    transition: opacity 0.5s ease-out;
+}
+
+.loading-window {
+    background: #c0c0c0;
+    border: 2px outset #fff;
+    padding: 5px;
+    width: 250px;
+    text-align: center;
+    color: black;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+.loading-bar {
+    width: 100%;
+    height: 20px;
+    background: white;
+    border: 2px inset #fff;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.loading-progress {
+    width: 20%;
+    /* Initial width */
+    height: 100%;
+    background: #000080;
+    /* Blue bar */
+    animation: loading 2s infinite linear;
+}
+
+@keyframes loading {
+    0% {
+        width: 0%;
+        margin-left: 0;
+    }
+
+    50% {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    100% {
+        width: 0%;
+        margin-left: 100%;
+    }
+}
+
 .zoom-wrapper {
     position: fixed;
     top: 0;
@@ -48,6 +121,7 @@ body {
     justify-content: center;
     position: relative;
     background-image: url('../static/images/winxp.jpg');
+    image-rendering: pixelated;
 
     /* These properties ensure it covers the screen perfectly */
     background-size: cover;
@@ -136,13 +210,18 @@ body {
 
 .address-input {
     flex: 1;
-    width: 400px;
+    width: 100%;
     padding: 3px 5px;
     border: 2px solid;
     border-color: #808080 #dfdfdf #dfdfdf #808080;
     font-family: 'W95FA', 'Courier New', monospace;
     font-size: 13px;
     background: white;
+}
+
+.address-wrapper {
+    max-width: 400px;
+    width: 92%;
 }
 
 .content-area {
@@ -569,7 +648,7 @@ body {
     }
 
     .try-me-arrow {
-        opacity: 0;
+        display: none;
     }
 
     .new-badge {
