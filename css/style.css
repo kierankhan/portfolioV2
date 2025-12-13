@@ -14,14 +14,6 @@ body {
     height: 100vh;
 }
 
-/* Optimize: Pause noise on mobile to improve performance */
-@media (max-width: 768px) {
-    body {
-        animation: none;
-        /* Disable animation on mobile */
-    }
-}
-
 /* Loading Screen */
 #loading-screen {
     position: fixed;
@@ -517,7 +509,8 @@ body {
         justify-content: flex-start;
         padding: 40px 20px 20px 20px;
         overflow-y: auto;
-        /* background-image: url('../static/images/dsotm.png'); */
+        background-image: url('../static/images/noise2.png');
+        animation: none !important;
     }
 
     /* Shrink the profile container and hole */
