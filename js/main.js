@@ -418,7 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 createWindow({ title: 'My Projects', icon: '💡', contentUrl: '/projects.html' });
                 break;
             case 'inception':
-                createWindow({ title: 'Inception', icon: '👁️', contentUrl: '/inception.html' });
+                createWindow({ title: 'Inception', icon: '👁️', contentUrl: '/index.html' });
                 break;
             case 'travel':
                 createWindow({ title: 'My Travels', icon: '✈️', contentUrl: '/travel.html', width: '1200px', height: '600px' });
