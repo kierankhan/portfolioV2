@@ -1,3 +1,5 @@
+@import url('https://fonts.cdnfonts.com/css/w95fa');
+
 * {
     margin: 0;
     padding: 0;
@@ -5,7 +7,8 @@
 }
 
 body {
-    font-family: 'Courier New', monospace;
+    font-family: 'W95FA', 'Courier New', monospace;
+    /* Fallback to Courier if needed */
     background: white;
     /* overflow: hidden; */
     height: 100vh;
@@ -127,7 +130,7 @@ body {
 }
 
 .address-label {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: bold;
 }
 
@@ -137,8 +140,8 @@ body {
     padding: 3px 5px;
     border: 2px solid;
     border-color: #808080 #dfdfdf #dfdfdf #808080;
-    font-family: 'Courier New', monospace;
-    font-size: 12px;
+    font-family: 'W95FA', 'Courier New', monospace;
+    font-size: 13px;
     background: white;
 }
 
@@ -317,7 +320,7 @@ body {
 .suggestion-item {
     padding: 5px 10px;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 .suggestion-item:hover {
@@ -510,8 +513,9 @@ body {
         padding: 3px 5px;
         border: 2px solid;
         border-color: #808080 #dfdfdf #dfdfdf #808080;
-        font-family: 'Courier New', monospace;
-        font-size: 12px;
+        font-family: 'W95FA', 'Courier New', monospace;
+        font-size: 16px;
+        /* 👈 Prevents iOS zoom */
         background: white;
     }
 
@@ -654,7 +658,7 @@ body {
     border: 2px solid;
     border-color: #dfdfdf #808080 #808080 #dfdfdf;
     /* 3D button */
-    font-family: 'Courier New', monospace;
+    font-family: 'W95FA', 'Courier New', monospace;
     font-size: 12px;
     cursor: pointer;
     color: #000;
@@ -809,7 +813,7 @@ body {
     background: #c0c0c0;
     border: 2px solid;
     border-color: #dfdfdf #808080 #808080 #dfdfdf;
-    font-family: 'Courier New', monospace;
+    font-family: 'W95FA', 'Courier New', monospace;
     font-size: 14px;
     cursor: pointer;
     color: #000;
@@ -830,7 +834,7 @@ body {
 .playing-icons {
     /* margin-left: auto; */
     /* 👈 REMOVE THIS LINE. We'll move it to the parent. */
-    height: 30px;
+    height: 26px;
     width: auto;
     padding-right: 5px;
     transition: filter 0.1s ease-out;
@@ -910,7 +914,7 @@ body {
     background: #c0c0c0;
     border: 2px solid;
     border-color: #dfdfdf #808080 #808080 #dfdfdf;
-    font-family: 'Courier New', monospace;
+    font-family: 'W95FA', 'Courier New', monospace;
     font-size: 13px;
     cursor: pointer;
     color: #000;
@@ -996,7 +1000,7 @@ body {
 
 .form-group input,
 .form-group textarea {
-    font-family: 'Courier New', monospace;
+    font-family: 'W95FA', 'Courier New', monospace;
     font-size: 12px;
     padding: 5px;
     border: 2px solid;
@@ -1159,7 +1163,7 @@ body {
 
 .new-badge {
     font-weight: bold;
-    font-size: 14px;
+    font-size: 12px;
     color: rgb(179, 0, 0);
     white-space: nowrap;
     /* animation: bounceHorizontal 1s infinite alternate; */

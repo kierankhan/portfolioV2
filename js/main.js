@@ -39,6 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Layer 1: The Face ---
     // ❗️ FIX: Paths in /public must start with a /
     const faceTexture = textureLoader.load('/kieran.jpg', (texture) => {
+        texture.minFilter = THREE.NearestFilter;
+        texture.magFilter = THREE.NearestFilter;
     });
 
     const faceMaterial = new THREE.MeshPhysicalMaterial({
@@ -54,6 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const cdOverlayTexture = textureLoader.load('/cd.png', (texture) => {
         texture.repeat.set(.75, .75);
         texture.offset.set(0.126, 0.126);
+        texture.minFilter = THREE.NearestFilter;
+        texture.magFilter = THREE.NearestFilter;
     });
 
     const cdOverlayMaterial = new THREE.MeshPhysicalMaterial({
@@ -671,7 +675,7 @@ document.addEventListener('DOMContentLoaded', () => {
     mysteryIcon.addEventListener('click', () => {
         createWindow({
             title: 'Huh?',
-            icon: '❓',
+            icon: '',
             contentUrl: '/mystery.html',
             width: '400px',
             height: '400px'
