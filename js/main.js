@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 tryMeArrow.remove();
             }, 1000); // Match CSS transition duration
-        }, 14000); // Show for 5 seconds
+        }, 20000); // Show for 20 seconds
     }
 
     // --- 6. The Animation Loop (Makes the CD Spin & Tilt) ---
