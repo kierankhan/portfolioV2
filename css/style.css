@@ -517,7 +517,7 @@ body {
     .profile-container {
         width: 300px;
         /* New smaller size */
-        height: 235px;
+        height: 215px;
         /* New smaller size */
         flex-shrink: 0;
         /* Prevents it from shrinking weirdly */

@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderer.setSize(window.innerWidth, window.innerHeight);
 
         restingXPosition = isMobile ? 0 : -3.3;
-        restingYPosition = isMobile ? 1 : -0.5;
+        restingYPosition = isMobile ? 1.3 : -0.5;
         cdGroup.position.x = restingXPosition;
         cdGroup.position.y = restingYPosition;
 
