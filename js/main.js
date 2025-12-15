@@ -118,7 +118,9 @@ document.addEventListener('DOMContentLoaded', () => {
         "<li>I play violin in the <a href='https://umd.gamersymphony.org/' target='_blank'>UMD Gamer Symphony Orchestra</a>. We play video game music that's been student-arranged for a full orchestra. Check us out!</li>",
         "<li><img src='/internet_connection_wiz-2.png' style='height: 50px;' /><br>I love the <a href='https://win98icons.alexmeub.com/' target='_blank'>windows 98 icons</a>.</li>",
         "<li>My favorite artist of all time is Masayoshi Takanaka. If you like jazz fusion with insane guitar, definitely give him a listen.</li><img src='/all_of_me.jpeg' style='width: 100px;' />",
-        "<li>In Summer 2025, I interned in Seattle. My favorite hikes were Mt. Rainier -> Lake 22 -> Lake Serene (brutal).</li><img src='/DSC07653-3.jpg' style='width: 300px;' />"
+        "<li>In summer 2025, I interned in Seattle. My favorite hikes were Mt. Rainier -> Lake 22 -> Lake Serene (brutal).</li><img src='/DSC07653-3.jpg' style='width: 300px;' />",
+        "<li>Kung Fu Panda is my favorite animated movie.</li>",
+        "<li>I like taking pictures sometimes.</li><div style='display: flex; flex-direction: row; justify-content: left; gap: 10px;'><img src='/DSC00399.jpg' style='width: 150px;' /><img src='/DSC00455-2.jpg' style='width: 150px;' /><img src='/Sunflower.jpg' style='width: 150px;' /></div>",
     ];
 
     const contentData = {
@@ -174,48 +176,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Call it once to set the initial size AND resting positions
     handleResize();
-    updateBookmarksVisibility(); // 👈 Initial check
 
     // Add the event listener to call it on every resize
     window.addEventListener('resize', () => {
         handleResize();
-        updateBookmarksVisibility();
     });
-
-    function updateBookmarksVisibility() {
-        const buttons = Array.from(bookmarksBar.children);
-        const containerWidth = bookmarksBar.clientWidth;
-
-        // Get strict padding values to know accurate available space
-        const style = window.getComputedStyle(bookmarksBar);
-        const paddingLeft = parseFloat(style.paddingLeft);
-        const paddingRight = parseFloat(style.paddingRight);
-        const gap = parseFloat(style.gap) || 4; // Default to 4 if not set
-
-        let currentWidth = paddingLeft + paddingRight;
-
-        // 1. Reset all to be visible temporarily to get their natural width
-        // OR: Better, assume their width doesn't change and just measure them if visible, 
-        // or hardcode/cache? "Show all" is safest for correct measurements.
-        buttons.forEach(btn => btn.classList.remove('hide-btn'));
-
-        // 2. Iterate and hide if we exceed budget
-        buttons.forEach((btn, index) => {
-            // We use offsetWidth which includes border + padding
-            // But if it was hidden, offsetWidth is 0. 
-            // Since we just showed them, it should be fine.
-            const btnWidth = btn.offsetWidth;
-
-            // Add gap if it's not the first item
-            if (index > 0) currentWidth += gap;
-
-            currentWidth += btnWidth;
-
-            if (currentWidth > containerWidth) {
-                btn.classList.add('hide-btn');
-            }
-        });
-    }
 
     // --- 8. Handle Mouse Movement for Tilt ---
     document.addEventListener('mousemove', (event) => {
@@ -277,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.onload = () => {
         // Double check layout
         handleResize();
-        updateBookmarksVisibility();
+        // updateBookmarksVisibility();
 
         // Short buffer to ensure layout paints (minimum 500ms feel)
         setTimeout(startIntroAnimation, 500);
@@ -756,16 +721,39 @@ document.addEventListener('DOMContentLoaded', () => {
                 const displayArea = document.getElementById('fun-fact-display');
                 const rerollBtn = document.getElementById('reroll-btn');
 
-                const showRandomFact = () => {
+                const updateFact = () => {
                     const randomIndex = Math.floor(Math.random() * funFacts.length);
                     displayArea.innerHTML = funFacts[randomIndex];
                 };
 
-                // Show initial fact
-                showRandomFact();
+                const handleReroll = () => {
+                    updateFact();
+
+                    // Disable button
+                    rerollBtn.disabled = true;
+                    let countdown = 5;
+                    const originalText = rerollBtn.innerHTML;
+
+                    // Initial text update
+                    rerollBtn.innerText = `Wait ${countdown}s...`;
+
+                    const timer = setInterval(() => {
+                        countdown--;
+                        if (countdown > 0) {
+                            rerollBtn.innerText = `Wait ${countdown}s...`;
+                        } else {
+                            clearInterval(timer);
+                            rerollBtn.disabled = false;
+                            rerollBtn.innerHTML = originalText;
+                        }
+                    }, 1000);
+                };
+
+                // Show initial fact immediately
+                updateFact();
 
                 // Add listener
-                rerollBtn.addEventListener('click', showRandomFact);
+                rerollBtn.addEventListener('click', handleReroll);
             }
         }
     });

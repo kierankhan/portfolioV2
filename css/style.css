@@ -718,7 +718,9 @@ body {
     /* Match address bar silver */
     border-bottom: 2px solid;
     border-color: #dfdfdf #808080 #808080 #dfdfdf;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
     /* Allows buttons to wrap on small screens */
 }
 
@@ -997,6 +999,12 @@ body {
     justify-content: center;
     /* 👈 Add this */
     -webkit-appearance: none;
+}
+
+.alert-ok-btn:disabled {
+    color: #808080;
+    text-shadow: 1px 1px 0 #fff;
+    cursor: not-allowed;
 }
 
 .alert-ok-btn:active,
