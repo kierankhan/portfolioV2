@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `,
         "fun_facts": `
             <div style="display: flex; flex-direction: row; justify-content: left; gap: 10px;">
-                <h2>(Pseudo)Random Facts About Me</h2>
+                <h2>Some Facts About Me</h2>
             </div>
             <ul id="fun-fact-display" style="list-style-type: none; padding-left: 0; min-height: 100px; display: flex; flex-direction: column;">
                 <!-- Content goes here -->
