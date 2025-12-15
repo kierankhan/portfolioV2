@@ -112,6 +112,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // This holds the HTML for each company overview.
     // I pulled this from the resume you uploaded earlier.
+
+    const funFacts = [
+        "<li>I studied abroad in Seoul, South Korea for the fall of 2025! And I did trips to Jeju Island, Taiwan, Hong Kong, and Macau. </li><img src='/sk_flag.gif' style='width: 100px; image-rendering: pixelated;' />",
+        "<li>I play violin in the <a href='https://umd.gamersymphony.org/' target='_blank'>UMD Gamer Symphony Orchestra</a>. We play video game music that's been student-arranged for a full orchestra. Check us out!</li>",
+        "<li><img src='/internet_connection_wiz-2.png' style='height: 50px;' /><br>I love the <a href='https://win98icons.alexmeub.com/' target='_blank'>windows 98 icons</a>.</li>",
+        "<li>My favorite artist of all time is Masayoshi Takanaka. If you like jazz fusion with insane guitar, definitely give him a listen.</li><img src='/all_of_me.jpeg' style='width: 100px;' />",
+        "<li>In Summer 2025, I interned in Seattle. My favorite hikes were Mt. Rainier -> Lake 22 -> Lake Serene (brutal).</li><img src='/DSC07653-3.jpg' style='width: 300px;' />"
+    ];
+
     const contentData = {
         "microsoft": `
             <div style="display: flex; flex-direction: row; justify-content: left; gap: 10px;">
@@ -151,7 +160,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 <li>Led an 8-person team on a MITRE-sponsored project to develop a full-stack internal cyber training application.</li>
                 <li>Culminated in a successful demo at MITRE HQ and approval for internal deployment.</li>
             </ul>
-        `
+        `,
+        "fun_facts": `
+            <div style="display: flex; flex-direction: row; justify-content: left; gap: 10px;">
+                <h2>(Pseudo)Random Facts About Me</h2>
+            </div>
+            <ul id="fun-fact-display" style="list-style-type: none; padding-left: 0; min-height: 100px; display: flex; flex-direction: column;">
+                <!-- Content goes here -->
+            </ul>
+            <button id="reroll-btn" class="alert-ok-btn" style="margin-top: 10px; width: auto; padding: 0 10px;"><img src="/charmap_w2k-0.png" style="height: 25px; margin-right: 6px;" />Re-roll </button>
+        `,
     };
 
     // Call it once to set the initial size AND resting positions
@@ -733,6 +751,22 @@ document.addEventListener('DOMContentLoaded', () => {
             homeContent.style.display = 'none';
             companyOverview.innerHTML = contentData[targetID];
             companyOverview.style.display = 'block';
+
+            if (targetID === 'fun_facts') {
+                const displayArea = document.getElementById('fun-fact-display');
+                const rerollBtn = document.getElementById('reroll-btn');
+
+                const showRandomFact = () => {
+                    const randomIndex = Math.floor(Math.random() * funFacts.length);
+                    displayArea.innerHTML = funFacts[randomIndex];
+                };
+
+                // Show initial fact
+                showRandomFact();
+
+                // Add listener
+                rerollBtn.addEventListener('click', showRandomFact);
+            }
         }
     });
 });
