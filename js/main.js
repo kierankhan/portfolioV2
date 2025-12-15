@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
         "<li>I play violin in the <a href='https://umd.gamersymphony.org/' target='_blank'>UMD Gamer Symphony Orchestra</a>. We play video game music that's been student-arranged for a full orchestra. Check us out!</li>",
         "<li><img src='/internet_connection_wiz-2.png' style='height: 50px;' /><br>I love the <a href='https://win98icons.alexmeub.com/' target='_blank'>windows 98 icons</a>.</li>",
         "<li>My favorite artist of all time is Masayoshi Takanaka. If you like jazz fusion with insane guitar, definitely give him a listen.</li><img src='/all_of_me.jpeg' style='width: 100px;' />",
-        "<li>In summer 2025, I interned in Seattle. My favorite hikes were Mt. Rainier -> Lake 22 -> Lake Serene (brutal).</li><img src='/DSC07653-3.jpg' style='width: 300px;' />",
+        "<li>In summer 2025, I interned in Seattle. My favorite hikes were Mt. Rainier -> Lake 22 -> Lake Serene (brutal).</li><img src='/DSC07653-3.jpg' style='width: 150px;' />",
         "<li>Kung Fu Panda is my favorite animated movie.</li>",
         "<li>I like taking pictures sometimes.</li><div style='display: flex; flex-direction: row; justify-content: left; gap: 10px;'><img src='/DSC00399.jpg' style='width: 150px;' /><img src='/DSC00455-2.jpg' style='width: 150px;' /><img src='/Sunflower.jpg' style='width: 150px;' /></div>",
     ];
