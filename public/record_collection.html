@@ -55,6 +55,18 @@
             border-color: white;
         }
 
+        /* .record-card:hover .artist {
+            color: white;
+        } */
+
+        .record-card:hover .title {
+            color: rgb(178, 178, 178);
+        }
+
+        .record-card:hover .year {
+            color: rgb(158, 158, 158);
+        }
+
         .record-img-wrapper {
             width: 100%;
             aspect-ratio: 1/1;
@@ -87,11 +99,11 @@
         }
 
         .title {
-            color: #444;
+            color: #000000;
         }
 
         .year {
-            color: #666;
+            color: #595959;
             font-size: 10px;
         }
 
@@ -220,7 +232,7 @@
                 <div class="info-text">
                     <div class="artist">${record.Artist}</div>
                     <div class="title">${record.Title}</div>
-                    <div class="year">${record.Released || ''}</div>
+                    <div class="year">${record.Released || ''} Release</div>
                 </div>
             `;
             return card;
@@ -282,7 +294,7 @@
         sortFieldSelect.addEventListener('change', renderGrid);
         sortDirSelect.addEventListener('change', renderGrid);
 
-        fetch('/record/kierankhan-collection-20251215-0824.csv')
+        fetch('/record/kierankhan-collection-20251215-1259.csv')
             .then(response => response.text())
             .then(csvText => {
                 allRecords = parseCSV(csvText);
