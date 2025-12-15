@@ -648,8 +648,44 @@ body {
         display: none;
     }
 
-    .system-tray-icon {
+    /* By default on mobile, tray icons are hidden unless .mobile-visible is added */
+    .system-tray-icon:not(.mobile-visible) {
         display: none !important;
+    }
+
+    /* When tray is active, show icons */
+    #taskbar .system-tray-icon.mobile-visible {
+        display: flex !important;
+    }
+
+    /* Force images to show when parent is visible */
+    #taskbar .system-tray-icon.mobile-visible .playing-icons {
+        display: block !important;
+    }
+
+    /* Toggle Buttons Visibility */
+    #taskbarNextBtn {
+        display: flex !important;
+        /* Show on mobile */
+    }
+
+    #taskbarNextBtn.mobile-hidden {
+        display: none !important;
+    }
+
+    /* Hide main buttons when tray is active */
+    .taskbar-btn.mobile-hidden {
+        display: none !important;
+    }
+
+    /* Show Back button only when tray is active */
+    #taskbarBackBtn {
+        display: none;
+        /* Default hidden */
+    }
+
+    #taskbarBackBtn.mobile-visible {
+        display: flex !important;
     }
 }
 
@@ -1255,5 +1291,24 @@ body {
     pointer-events: none;
     opacity: 1;
     padding-right: 5px;
-    /* transition: opacity 1s ease-out; */
+}
+
+@media (max-width: 768px) {
+    .draggable-window {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        max-height: none !important;
+        top: 0 !important;
+        left: 0 !important;
+        transform: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+    }
+
+    .window-content {
+        height: calc(100% - 30px) !important;
+        /* Adjust for title bar */
+    }
 }

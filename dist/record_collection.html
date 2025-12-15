@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Records</title>
+    <style>
+        body {
+            font-family: 'W95FA', 'Courier New', monospace;
+            /* Match site font if possible, or generic */
+            margin: 0;
+            padding: 10px;
+            background: #fff;
+            height: 100vh;
+            box-sizing: border-box;
+            overflow: hidden;
+            /* Main scroll handled by grid container */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .record-grid {
+            flex: 1;
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 15px;
+            padding-right: 5px;
+            /* Space for scrollbar */
+        }
+
+        .record-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            padding: 5px;
+            cursor: pointer;
+            border: 1px dotted transparent;
+        }
+
+        .record-card:hover {
+            background: #000080;
+            /* Windows 98 Selection Blue */
+            color: white;
+            border: 1px dotted #fff;
+        }
+
+        .record-card:hover .info-text {
+            color: white;
+        }
+
+        .record-card:hover .record-img-wrapper {
+            border-color: white;
+        }
+
+        .record-img-wrapper {
+            width: 100%;
+            aspect-ratio: 1/1;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
+            box-shadow: 1px 1px 0 #000;
+            position: relative;
+        }
+
+        .record-img-wrapper img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+
+        .info-text {
+            text-align: center;
+            font-size: 11px;
+            line-height: 1.2;
+            width: 100%;
+        }
+
+        .artist {
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+
+        .title {
+            color: #444;
+        }
+
+        .year {
+            color: #666;
+            font-size: 10px;
+        }
+
+        /* Scrollbar styling to match Windows 98 if possible, or simple default */
+        ::-webkit-scrollbar {
+            width: 16px;
+            background: #dfdfdf;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c0c0c0;
+            border: 2px solid;
+            border-color: #fff #808080 #808080 #fff;
+        }
+
+        ::-webkit-scrollbar-button {
+            background: #c0c0c0;
+            width: 16px;
+            height: 16px;
+            border: 2px solid;
+            border-color: #fff #808080 #808080 #fff;
+            display: block;
+            /* Default is block, but let's be explicit */
+        }
+
+        /* Hide the "Start Increment" (Down arrow at top) and "End Decrement" (Up arrow at bottom) */
+        ::-webkit-scrollbar-button:start:increment,
+        ::-webkit-scrollbar-button:end:decrement {
+            display: none;
+        }
+
+        .section-header {
+            grid-column: 1 / -1;
+            /* Span all columns */
+            background: #000080;
+            color: #fff;
+            padding: 4px 8px;
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            padding: 5px;
+            background: #c0c0c0;
+            border-bottom: 1px solid #808080;
+            align-items: center;
+            font-size: 12px;
+        }
+
+        .toolbar select {
+            font-family: 'W95FA', 'Courier New', monospace;
+            font-size: 12px;
+        }
+
+        @media (max-width: 768px) {}
+    </style>
+</head>
+
+<body>
+    <div class="toolbar">
+        <label>Sort By:</label>
+        <select id="sortField">
+            <option value="Artist">Artist</option>
+            <option value="Title">Title</option>
+        </select>
+        <select id="sortDirection">
+            <option value="asc">Ascending (A-Z)</option>
+            <option value="desc">Descending (Z-A)</option>
+        </select>
+    </div>
+
+    <div class="record-grid" id="recordGrid">
+        <div style="text-align: center; width: 100%; padding: 20px;">Loading collection...</div>
+    </div>
+
+    <script>
+        // Simple CSV Parser
+        function parseCSV(text) {
+            const lines = text.trim().split('\n');
+            const headers = lines[0].split(',').map(h => h.trim());
+            const result = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                if (!lines[i].trim()) continue; // Skip empty lines
+
+                const row = [];
+                let inQuotes = false;
+                let currentField = '';
+
+                for (let char of lines[i]) {
+                    if (char === '"') {
+                        inQuotes = !inQuotes;
+                    } else if (char === ',' && !inQuotes) {
+                        row.push(currentField);
+                        currentField = '';
+                    } else {
+                        currentField += char;
+                    }
+                }
+                row.push(currentField);
+
+                const obj = {};
+                headers.forEach((h, index) => {
+                    obj[h] = row[index] ? row[index].replace(/^"|"$/g, '').trim() : '';
+                });
+                result.push(obj);
+            }
+            return result;
+        }
+
+        function createCard(record) {
+            const card = document.createElement('div');
+            card.className = 'record-card';
+            const imgPath = `/record/covers/${record.release_id}.jpg`;
+
+            card.innerHTML = `
+                <div class="record-img-wrapper">
+                    <img src="${imgPath}" 
+                            onerror="this.parentElement.innerHTML='<span style=\\'color:white; font-size: 24px;\\'>🎵</span>'"
+                    />
+                </div>
+                <div class="info-text">
+                    <div class="artist">${record.Artist}</div>
+                    <div class="title">${record.Title}</div>
+                    <div class="year">${record.Released || ''}</div>
+                </div>
+            `;
+            return card;
+        }
+
+        const grid = document.getElementById('recordGrid');
+        const sortFieldSelect = document.getElementById('sortField');
+        const sortDirSelect = document.getElementById('sortDirection');
+
+        // State
+        let allRecords = [];
+
+        function renderGrid() {
+            const sortField = sortFieldSelect.value; // 'Artist' or 'Title'
+            const direction = sortDirSelect.value;   // 'asc' or 'desc'
+
+            // Sort
+            allRecords.sort((a, b) => {
+                const valA = (a[sortField] || '').toString();
+                const valB = (b[sortField] || '').toString();
+
+                let result = valA.localeCompare(valB);
+                if (direction === 'desc') {
+                    result = -result;
+                }
+                return result;
+            });
+
+            grid.innerHTML = '';
+
+            let currentGroup = '';
+
+            allRecords.forEach(record => {
+                if (!record[sortField]) return;
+
+                // Grouping Logic
+                const val = record[sortField].toString();
+                // If sorting by Title, maybe ignore "The" for grouping? keeping simple first.
+                const firstChar = val.charAt(0).toUpperCase();
+
+                let groupingChar = firstChar;
+                if (!/^[A-Z]$/.test(groupingChar)) {
+                    groupingChar = '#';
+                }
+
+                if (groupingChar !== currentGroup) {
+                    currentGroup = groupingChar;
+                    const header = document.createElement('div');
+                    header.className = 'section-header';
+                    header.innerText = currentGroup;
+                    grid.appendChild(header);
+                }
+
+                grid.appendChild(createCard(record));
+            });
+        }
+
+        // Listeners
+        sortFieldSelect.addEventListener('change', renderGrid);
+        sortDirSelect.addEventListener('change', renderGrid);
+
+        fetch('/record/kierankhan-collection-20251215-0824.csv')
+            .then(response => response.text())
+            .then(csvText => {
+                allRecords = parseCSV(csvText);
+                renderGrid();
+            })
+            .catch(err => {
+                console.error(err);
+                grid.innerHTML = `<div style="color: red; padding: 20px; text-align: center;">Error loading collection.<br>${err.message}</div>`;
+            });
+    </script>
+</body>
+
+</html>

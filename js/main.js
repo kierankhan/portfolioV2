@@ -16,12 +16,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const bookmarksBar = document.getElementById('bookmarksBar');
     const travelIcon = document.getElementById('travelIcon');
     const mysteryIcon = document.getElementById('mysteryIcon');
+    const recordIcon = document.getElementById('recordIcon');
     const homeContent = document.getElementById('homeContent');
     const companyOverview = document.getElementById('companyOverview');
     let restingXPosition = 0;
     let restingYPosition = 0;
     let mouseX = 0;
     let mouseY = 0;
+    const taskbarNextBtn = document.getElementById('taskbarNextBtn');
+    const taskbarBackBtn = document.getElementById('taskbarBackBtn');
+    const systemTrayIcons = document.querySelectorAll('.system-tray-icon');
+    const mainTaskbarButtons = document.querySelectorAll('.taskbar-btn:not(#taskbarNextBtn):not(#taskbarBackBtn)');
+
+    if (taskbarNextBtn && taskbarBackBtn) {
+        taskbarNextBtn.addEventListener('click', () => {
+            // Hide Main Buttons + Next Button
+            mainTaskbarButtons.forEach(btn => btn.classList.add('mobile-hidden'));
+            taskbarNextBtn.classList.add('mobile-hidden'); // Manually hide next button to avoid conflict
+
+            // Show Tray Icons + Back Button
+            systemTrayIcons.forEach(icon => icon.classList.add('mobile-visible'));
+            taskbarBackBtn.classList.add('mobile-visible');
+        });
+
+        taskbarBackBtn.addEventListener('click', () => {
+            // Show Main Buttons + Next Button
+            mainTaskbarButtons.forEach(btn => btn.classList.remove('mobile-hidden'));
+            taskbarNextBtn.classList.remove('mobile-hidden'); // Reset to CSS default (flex)
+
+            // Hide Tray Icons + Back Button
+            systemTrayIcons.forEach(icon => icon.classList.remove('mobile-visible'));
+            taskbarBackBtn.classList.remove('mobile-visible');
+        });
+    }
 
     // --- 2. Basic 3D Scene Setup ---
     const scene = new THREE.Scene();
@@ -601,6 +628,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Add to page
         zoomWrapper.appendChild(newContactWindow);
+    });
+
+    // --- Record Collection Logic ---
+
+    recordIcon.addEventListener('click', () => {
+        createWindow({
+            title: 'My Records',
+            icon: '💿',
+            contentUrl: '/record_collection.html',
+            width: '600px',
+            height: '500px'
+        });
     });
 
     formBtn.addEventListener('click', () => {

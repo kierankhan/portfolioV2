@@ -137,19 +137,36 @@
             <img class="taskbar-btn-icons" src="/outlook_express-4.png"></img>
             <span>Message Me</span>
         </button>
-        <div class="system-tray-icon" id="travelIcon" style="margin-left: auto;">
-            <div class="new-badge">NEW <span style="font-size: 16px;">➡</span></div>
-            <img class="playing-icons" src="/entire_network_globe-0.png"></img>
-            <span class="tooltip">View my travels!</span>
-        </div>
-        <div class="system-tray-icon" id="songIcon"
-            href="https://open.spotify.com/user/31svufabixd4pl3wssdsobfvzg4m?si=0f8cb8828287426c">
-            <img class="playing-icons" src="/cd_audio_cd_a-4.png"></img>
-            <span class="tooltip">Current favorite song: Tin Man - America</span>
-        </div>
-        <div class="system-tray-icon" id="mysteryIcon">
-            <img class="playing-icons" src="/help_book_cool-4.png"></img>
-            <span class="tooltip">What's this?</span>
+
+        <!-- Mobile Toggle Button (Next) -->
+        <button class="taskbar-btn" id="taskbarNextBtn" style="display: none; margin-left: auto;">
+            <span>&gt;&gt;</span>
+        </button>
+
+        <div id="systemTray" style="display: contents;">
+            <!-- Mobile Toggle Button (Back) -->
+            <button class="taskbar-btn" id="taskbarBackBtn" style="display: none;">
+                <span>&lt;&lt;</span>
+            </button>
+
+            <div class="system-tray-icon" id="travelIcon" style="margin-left: auto;">
+                <div class="new-badge">NEW <span style="font-size: 16px;">➡</span></div>
+                <img class="playing-icons" src="/entire_network_globe-0.png"></img>
+                <span class="tooltip">View my travels!</span>
+            </div>
+            <div class="system-tray-icon" id="recordIcon">
+                <img class="playing-icons" src="/cd_drive_purple-3.png"></img>
+                <span class="tooltip">Explore my record collection</span>
+            </div>
+            <div class="system-tray-icon" id="songIcon"
+                href="https://open.spotify.com/user/31svufabixd4pl3wssdsobfvzg4m?si=0f8cb8828287426c">
+                <img class="playing-icons" src="/cd_audio_cd_a-4.png"></img>
+                <span class="tooltip">Current favorite song: Tin Man - America</span>
+            </div>
+            <div class="system-tray-icon" id="mysteryIcon">
+                <img class="playing-icons" src="/help_book_cool-4.png"></img>
+                <span class="tooltip">What's this?</span>
+            </div>
         </div>
     </div>
 
@@ -247,6 +264,7 @@
             </div>
         </div>
     </template>
+
 </body>
 
 </html>

@@ -7,8 +7,8 @@
     <title>Kieran Khan Portfolio</title>
     <!-- <link rel="stylesheet" href="https://unpkg.com/98.css" /> -->
     <link rel="icon" type="image/png" href="/internet_connection_wiz-2.png">
-  <script type="module" crossorigin src="/assets/index-BFrL2sKZ.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-FctVdouN.css">
+  <script type="module" crossorigin src="/assets/index-BgHOPkWd.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-B7SIwx4w.css">
 </head>
 
 <body>
@@ -56,9 +56,6 @@
                         <img src="/internet_connection_wiz-2.png"></img>
                         <!-- <span style="padding-left: 5px; font-weight: bolder;">Home</span> -->
                     </button>
-                    <button class="bookmark-btn" data-target="fun_facts">
-                        <img src="/game_hearts.png" style="height: 16px" alt="Game Hearts">
-                    </button>
                     <button class="bookmark-btn" data-target="microsoft">
                         <img src="/assets/msft_old_logo-CcgZmVKv.png" alt="Microsoft">
                         <img src="/assets/msft_old_logo2-Paw31CaH.png" alt="Microsoft">
@@ -71,6 +68,9 @@
                     </button>
                     <button class="bookmark-btn" data-target="mitre">
                         <img src="/assets/Mitre_Corporation_logo-0n5z-11R.png" style="height: 16px" alt="MITRE">
+                    </button>
+                    <button class="bookmark-btn" data-target="fun_facts">
+                        <img src="/game_hearts.png" style="height: 16px" alt="Game Hearts">
                     </button>
                 </div>
                 <div class="content-area">
@@ -137,19 +137,36 @@
             <img class="taskbar-btn-icons" src="/outlook_express-4.png"></img>
             <span>Message Me</span>
         </button>
-        <div class="system-tray-icon" id="travelIcon" style="margin-left: auto;">
-            <div class="new-badge">NEW <span style="font-size: 16px;">➡</span></div>
-            <img class="playing-icons" src="/entire_network_globe-0.png"></img>
-            <span class="tooltip">View my travels!</span>
-        </div>
-        <div class="system-tray-icon" id="songIcon"
-            href="https://open.spotify.com/user/31svufabixd4pl3wssdsobfvzg4m?si=0f8cb8828287426c">
-            <img class="playing-icons" src="/cd_audio_cd_a-4.png"></img>
-            <span class="tooltip">Current favorite song: Tin Man - America</span>
-        </div>
-        <div class="system-tray-icon" id="mysteryIcon">
-            <img class="playing-icons" src="/help_book_cool-4.png"></img>
-            <span class="tooltip">What's this?</span>
+
+        <!-- Mobile Toggle Button (Next) -->
+        <button class="taskbar-btn" id="taskbarNextBtn" style="display: none; margin-left: auto;">
+            <span>&gt;&gt;</span>
+        </button>
+
+        <div id="systemTray" style="display: contents;">
+            <!-- Mobile Toggle Button (Back) -->
+            <button class="taskbar-btn" id="taskbarBackBtn" style="display: none;">
+                <span>&lt;&lt;</span>
+            </button>
+
+            <div class="system-tray-icon" id="travelIcon" style="margin-left: auto;">
+                <div class="new-badge">NEW <span style="font-size: 16px;">➡</span></div>
+                <img class="playing-icons" src="/entire_network_globe-0.png"></img>
+                <span class="tooltip">View my travels!</span>
+            </div>
+            <div class="system-tray-icon" id="recordIcon">
+                <img class="playing-icons" src="/cd_drive_purple-3.png"></img>
+                <span class="tooltip">Explore my record collection</span>
+            </div>
+            <div class="system-tray-icon" id="songIcon"
+                href="https://open.spotify.com/user/31svufabixd4pl3wssdsobfvzg4m?si=0f8cb8828287426c">
+                <img class="playing-icons" src="/cd_audio_cd_a-4.png"></img>
+                <span class="tooltip">Current favorite song: Tin Man - America</span>
+            </div>
+            <div class="system-tray-icon" id="mysteryIcon">
+                <img class="playing-icons" src="/help_book_cool-4.png"></img>
+                <span class="tooltip">What's this?</span>
+            </div>
         </div>
     </div>
 
@@ -247,6 +264,7 @@
             </div>
         </div>
     </template>
+
 </body>
 
 </html>
