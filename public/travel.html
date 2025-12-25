@@ -133,6 +133,13 @@
             z-index: 100;
         }
 
+        @media (max-width: 768px) {
+            .controls {
+                /* position: fixed; */
+                bottom: 40px;
+            }
+        }
+
         .control-btn {
             width: 25px;
             height: 25px;
@@ -203,11 +210,13 @@
         const pins = [
             { city: "Washington D.C.", country: "USA", year: "2004-", top: "54%", left: "23%" },
             { city: "Seattle", country: "USA", year: "2025", top: "49%", left: "14%" },
+            { city: "Hawaii", country: "USA", year: "2021", top: "54%", left: "3%" },
             { city: "Toronto", country: "Canada", year: "2024", top: "50%", left: "24%" },
             { city: "Dublin", country: "Ireland", year: "2018", top: "37%", left: "42.5%" },
             { city: "London", country: "UK", year: "2018", top: "38%", left: "44%" },
             { city: "Tokyo", country: "Japan", year: "2023", top: "49%", left: "80%" },
             { city: "Seoul", country: "South Korea", year: "2025", top: "47%", left: "77%" },
+            { city: "Jeju Islad", country: "South Korea", year: "2025", top: "49%", left: "76%" },
             { city: "Sydney", country: "Australia", year: "2016, 2023", top: "89%", left: "85%" },
             { city: "Madrid", country: "Spain", year: "2025", top: "45.5%", left: "43.5%" },
             { city: "Lisbon", country: "Portugal", year: "2022", top: "45.5%", left: "42.5%" },

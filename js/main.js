@@ -713,13 +713,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    const songIcon = document.getElementById('songIcon');
-    songIcon.addEventListener('click', () => {
-        const url = songIcon.getAttribute('href');
-        if (url) {
-            window.open(url, '_blank');
-        }
-    });
+    // const songIcon = document.getElementById('songIcon');
+    // songIcon.addEventListener('click', () => {
+    //     const url = songIcon.getAttribute('href');
+    //     if (url) {
+    //         window.open(url, '_blank');
+    //     }
+    // });
 
     mysteryIcon.addEventListener('click', () => {
         createWindow({
